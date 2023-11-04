@@ -1,8 +1,8 @@
-package com.example.examplemod;
+package tfar.chickenvshunter;
 
 import net.minecraftforge.fml.common.Mod;
 
-@Mod(CommonClass.MOD_ID)
+@Mod(ChickenVsHunter.MOD_ID)
 public class ExampleMod {
     
     public ExampleMod() {
@@ -12,8 +12,8 @@ public class ExampleMod {
         // project.
     
         // Use Forge to bootstrap the Common mod.
-        CommonClass.LOG.info("Hello Forge world!");
-        CommonClass.init();
+        ChickenVsHunter.LOG.info("Hello Forge world!");
+        ChickenVsHunter.init();
         
     }
 }

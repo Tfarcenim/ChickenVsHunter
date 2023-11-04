@@ -7,7 +7,7 @@
     "mixins": [
     ],
     "client": [
-        "MixinTitleScreen"
+      "tfar.chickenvshunter.mixin.MixinTitleScreen"
     ],
     "server": [
     ],

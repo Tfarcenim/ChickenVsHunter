@@ -7,12 +7,12 @@
     "mixins": [
     ],
     "client": [
-        "MixinTitleScreen"
+      "tfar.chickenvshunter.mixin.MixinMinecraft"
     ],
     "server": [
     ],
     "injectors": {
-      "defaultRequire": 1
+        "defaultRequire": 1
     }
-  }
-  
+}
+
