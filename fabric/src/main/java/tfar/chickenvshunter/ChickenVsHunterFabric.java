@@ -12,7 +12,6 @@ public class ChickenVsHunterFabric implements ModInitializer {
         // project.
 
         // Use Fabric to bootstrap the Common mod.
-        ChickenVsHunter.LOG.info("Hello Fabric world!");
         ChickenVsHunter.init();
     }
 }
