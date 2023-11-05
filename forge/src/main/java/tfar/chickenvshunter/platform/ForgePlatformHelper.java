@@ -1,5 +1,6 @@
 package tfar.chickenvshunter.platform;
 
+import net.minecraft.world.item.Item;
 import tfar.chickenvshunter.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
