@@ -17,7 +17,8 @@
     "entrypoints": {
         "main": [
           "tfar.chickenvshunter.ChickenVsHunterFabric"
-        ]
+        ],
+        "client": ["tfar.chickenvshunter.Client"]
     },
     "mixins": [
         "${mod_id}.mixins.json",
