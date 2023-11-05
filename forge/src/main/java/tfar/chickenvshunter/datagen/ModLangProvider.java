@@ -14,6 +14,12 @@ public class ModLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(Init.GOLDEN_EGG,"Golden Egg");
-
+        add(Init.CHICKEN_HELMET,"Chicken Helmet");
+        add(Init.CHICKEN_CHESTPLATE,"Chicken Chestplate");
+        add(Init.CHICKEN_LEGGINGS,"Chicken Leggings");
+        add(Init.CHICKEN_BOOTS,"Chicken Boots");
     }
+
+
+
 }

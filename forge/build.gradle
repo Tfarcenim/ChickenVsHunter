@@ -59,7 +59,14 @@ minecraft {
         data {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            if (project.hasProperty('universal_datagen') && project.findProperty('universal_datagen').toBoolean()) {
+                args '--mod', mod_id, '--all', '--output', project(":common").file('src/generated/resources/'),
+                        '--existing', project(":common").file('src/main/resources/')
+            } else {
+                args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            }
+
             taskName 'Data'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"

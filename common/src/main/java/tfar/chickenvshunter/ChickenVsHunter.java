@@ -30,12 +30,12 @@ public class ChickenVsHunter {
     }
 }
 
-//- i can hold chicken above my head to move chicken around with me
-//	- cannot do anything with my hands at this point, like attack or mine etc...
+//- todo i can hold chicken above my head to move chicken around with me
+//	todo - cannot do anything with my hands at this point, like attack or mine etc...
 //
-//- chicken shows its HP out of 20 over its head for everyone to see
+//- todo chicken shows its HP out of 20 over its head for everyone to see
 //
-//- chicken starts to slowly regain health after 3 seconds of not being hit
+//- todo chicken starts to slowly regain health after 3 seconds of not being hit
 //
 //- hunters and I both have a compass to track chicken
 //
@@ -45,13 +45,13 @@ public class ChickenVsHunter {
 //	- dont need egg to show in my hand egg should shoot from the chicken above my head
 //	- egg should have ender pearl physics when thrown/ shot
 //
-//- random chance every 2 minutes that it will poop 1 chicken when im holding it that will fight hunters for us, and follow us when we are moving around (chickens that will act like wolves basically and have same HP as main chicken so 20hp)
+//- todo random chance every 2 minutes that it will poop 1 chicken when im holding it that will fight hunters for us, and follow us when we are moving around (chickens that will act like wolves basically and have same HP as main chicken so 20hp)
 //
-//- chicken can talk to other nearby chickens and make other chickens attack the hunters (just normal chickens with normal health that become part of our chicken army when we get within 10 blocks of em)
+//- todo chicken can talk to other nearby chickens and make other chickens attack the hunters (just normal chickens with normal health that become part of our chicken army when we get within 10 blocks of em)
 //
-//- when holding chicken I can glide
+//- todo when holding chicken I can glide
 //
-//- feed the chicken OP seeds:
+// todo - feed the chicken OP seeds:
 //	- OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
 //
 //		- gold seed: gives chicken axe (durability like diamond, damage as iron)
@@ -79,14 +79,14 @@ public class ChickenVsHunter {
 //				- chicken heart effect, in order to kill the chicken you must be slain as well
 //				- so if the chicken is down to 1 heart it is actually immune unless I am dead and no longer wearing the chicken chest piece
 //				- to clarify how this works in conjunction with helmet, chicken takes all damage first it gets onto one heart
-//then all the damage goes to me since chicken is on 1 heart and immune now once i am dead and not wearing chest piece chicken is no longer immune and can be killed
+// todo then all the damage goes to me since chicken is on 1 heart and immune now once i am dead and not wearing chest piece chicken is no longer immune and can be killed
 //
 //			- leggings give:
 //				- chicken legs effect, 25% chance to evade all melee and arrow damage
 //				- speed effect (no particles or speed icon in top right corner)
 //
 //- When the chicken reaches one heart it goes rage mode.
-//	- rage mode:
+//	todo - rage mode:
 //		- if i drop the chicken at this point it runs around attacking hunters itself
 //			- when attacking everytime it hits the hunters they have chance of being set on fire
 //			- it has random chance to give nausea when attacking the hunters

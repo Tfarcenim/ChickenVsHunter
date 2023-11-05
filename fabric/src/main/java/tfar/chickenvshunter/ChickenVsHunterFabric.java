@@ -42,6 +42,16 @@ public class ChickenVsHunterFabric implements ModInitializer {
         registerItem("chicken_chestplate", Init.CHICKEN_CHESTPLATE);
         registerItem("chicken_leggings", Init.CHICKEN_LEGGINGS);
         registerItem("chicken_boots", Init.CHICKEN_BOOTS);
+
+        Registry.register(BuiltInRegistries.BLOCK,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG);
+        registerItem("golden_egg",Init.GOLDEN_EGG_I);
+
+        registerItem("chicken_axe",Init.CHICKEN_AXE);
+        registerItem("chicken_bow",Init.CHICKEN_BOW);
+        registerItem("chicken_pickaxe",Init.CHICKEN_PICKAXE);
+
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
+
     }
 
     public static void registerItem(String name, Item item) {
@@ -49,9 +59,9 @@ public class ChickenVsHunterFabric implements ModInitializer {
     }
 
     public void initializeItems() {
-        Init.CHICKEN_HELMET = new ChickenArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Properties());
-        Init.CHICKEN_CHESTPLATE = new ChickenArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Properties());
-        Init.CHICKEN_LEGGINGS = new ChickenArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Properties());
-        Init.CHICKEN_BOOTS = new ChickenArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Properties());
+        Init.CHICKEN_HELMET = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Properties());
+        Init.CHICKEN_CHESTPLATE = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.CHESTPLATE, new Item.Properties());
+        Init.CHICKEN_LEGGINGS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.LEGGINGS, new Item.Properties());
+        Init.CHICKEN_BOOTS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties());
     }
 }
