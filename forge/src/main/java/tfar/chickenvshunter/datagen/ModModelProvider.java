@@ -49,11 +49,11 @@ public class ModModelProvider extends ModelProvider {
         Consumer<Item> consumer1 = set::add;
         new ModBlockModelProvider(consumer, biconsumer, consumer1).run();
         new ModItemModelProvider(biconsumer).run();
-        List<Block> list = Datagen.getKnownBlocks().filter((block) -> !map.containsKey(block)).toList();
+        List<Block> list = ModDatagen.getKnownBlocks().filter((block) -> !map.containsKey(block)).toList();
         if (!list.isEmpty()) {
             throw new IllegalStateException("Missing blockstate definitions for: " + list);
         } else {
-            Datagen.getKnownBlocks().forEach((p_125128_) -> {
+            ModDatagen.getKnownBlocks().forEach((p_125128_) -> {
                 Item item = Item.BY_BLOCK.get(p_125128_);
                 if (item != null) {
                     if (set.contains(item)) {
