@@ -11,6 +11,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class OpSeedItem extends Item {
@@ -20,6 +22,11 @@ public class OpSeedItem extends Item {
     };
     public static final Consumer<Player> GOLD = player -> {
         player.drop(new ItemStack(Init.CHICKEN_AXE),true);
+        List<Player> hunters = new ArrayList<>();
+        for (Player player1 : hunters) {
+
+        }
+
     };
     public static final Consumer<Player> DIAMOND = player -> {};
     public static final Consumer<Player> NETHERITE = player -> {};
