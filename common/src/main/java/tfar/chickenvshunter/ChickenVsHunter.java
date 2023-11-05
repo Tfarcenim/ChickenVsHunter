@@ -37,7 +37,7 @@ public class ChickenVsHunter {
 //
 //- todo chicken starts to slowly regain health after 3 seconds of not being hit
 //
-//- hunters and I both have a compass to track chicken
+//- todo hunters and I both have a compass to track chicken
 //
 //- can shoot eggs that when thrown it tps me to egg location even when in mid air if i click to "throw" the egg again
 //	- if it lands on block before i click again it just acts like an ender pearl but rather then taking damage we appear in a poof of feathers and dont take damage
@@ -52,7 +52,7 @@ public class ChickenVsHunter {
 //- todo when holding chicken I can glide
 //
 // todo - feed the chicken OP seeds:
-//	- OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
+//	todo - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
 //
 //		- gold seed: gives chicken axe (durability like diamond, damage as iron)
 //			- turns the hunters into chicken sized versions of them selves temporarily
