@@ -18,10 +18,10 @@ import java.util.function.Consumer;
 public class OpSeedItem extends Item {
 
     public static final Consumer<Player> IRON = player -> {
-        player.drop(new ItemStack(Init.CHICKEN_PICKAXE),true);
+        player.drop(new ItemStack(Init.CHICKEN_PICKAXE),false);
     };
     public static final Consumer<Player> GOLD = player -> {
-        player.drop(new ItemStack(Init.CHICKEN_AXE),true);
+        player.drop(new ItemStack(Init.CHICKEN_AXE),false);
         List<Player> hunters = new ArrayList<>();
         for (Player player1 : hunters) {
 
@@ -29,7 +29,13 @@ public class OpSeedItem extends Item {
 
     };
     public static final Consumer<Player> DIAMOND = player -> {};
-    public static final Consumer<Player> NETHERITE = player -> {};
+    public static final Consumer<Player> NETHERITE = player -> {
+        player.drop(new ItemStack(Init.CHICKEN_HELMET),false);
+        player.drop(new ItemStack(Init.CHICKEN_CHESTPLATE),false);
+        player.drop(new ItemStack(Init.CHICKEN_LEGGINGS),false);
+        player.drop(new ItemStack(Init.CHICKEN_BOOTS),false);
+
+    };
 
     public final Consumer<Player> rightClick;
     public OpSeedItem(Properties $$0,Consumer<Player> onRightClick) {

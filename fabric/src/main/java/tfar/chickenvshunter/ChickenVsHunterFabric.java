@@ -3,15 +3,26 @@ package tfar.chickenvshunter;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import org.jetbrains.annotations.Nullable;
 
 public class ChickenVsHunterFabric implements ModInitializer {
 
@@ -27,14 +38,26 @@ public class ChickenVsHunterFabric implements ModInitializer {
         initializeItems();
         register();
         CommandRegistrationCallback.EVENT.register(this::commands);
+        UseEntityCallback.EVENT.register(this::rightClickChicken);
+        AttackEntityCallback.EVENT.register(this::attackEntity);
     }
+
+    private InteractionResult attackEntity(Player player, Level level, InteractionHand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
+        return ChickenVsHunter.onPlayerAttack(player,level,hand,entity,entityHitResult);
+    }
+
+    private InteractionResult rightClickChicken(Player player, Level level, InteractionHand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
+        if (entity instanceof Chicken chicken) {
+            chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
+            chicken.startRiding(player);
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.PASS;
+    }
+
 
     private void commands(CommandDispatcher<CommandSourceStack> commandSourceStackCommandDispatcher, CommandBuildContext commandBuildContext, Commands.CommandSelection commandSelection) {
         ModCommands.register(commandSourceStackCommandDispatcher);
-    }
-
-    public void commands() {
-
     }
 
     public void register() {

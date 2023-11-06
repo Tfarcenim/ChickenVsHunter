@@ -1,8 +1,17 @@
 package tfar.chickenvshunter;
 
-import tfar.chickenvshunter.platform.Services;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +36,35 @@ public class ChickenVsHunter {
         // we have an interface in the common code and use a loader specific implementation to delegate our call to
         // the platform specific approach.
 
+    }
+
+    //return true to cancel fall damage
+    public static boolean onFallDamage(LivingEntity livingEntity) {
+        return livingEntity.getItemBySlot(EquipmentSlot.FEET).is(Init.CHICKEN_BOOTS);
+    }
+
+    public static InteractionResult onPlayerAttack(Player player, Level level, InteractionHand hand, Entity target, @Nullable EntityHitResult entityHitResult) {
+        if (player.getFirstPassenger() instanceof Chicken chicken) {
+            if  (chicken == target) {
+                return InteractionResult.FAIL;
+            }
+            if (player.getItemBySlot(EquipmentSlot.FEET).is(Init.CHICKEN_HELMET)) {
+                return InteractionResult.FAIL;
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    public static boolean holdingChicken(Player player) {
+        return player.getFirstPassenger() instanceof Chicken && !player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
+    }
+
+    public static void playerTick(Player player) {
+        if (!player.level().isClientSide) {
+            if (player.getFirstPassenger() instanceof Chicken) {
+                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 0, 2));
+            }
+        }
     }
 }
 
