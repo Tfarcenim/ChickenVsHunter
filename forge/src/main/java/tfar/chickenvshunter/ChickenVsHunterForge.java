@@ -1,5 +1,7 @@
 package tfar.chickenvshunter;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
@@ -44,6 +46,13 @@ public class ChickenVsHunterForge {
         registerItem("chicken_axe",() -> Init.CHICKEN_AXE);
         registerItem("chicken_bow",() -> Init.CHICKEN_BOW);
         registerItem("chicken_pickaxe",() -> Init.CHICKEN_PICKAXE);
+
+        registerItem("iron_seeds",() -> Init.IRON_SEEDS);
+        registerItem("gold_seeds",() -> Init.GOLD_SEEDS);
+        registerItem("diamond_seeds",() -> Init.DIAMOND_SEEDS);
+        registerItem("netherite_seeds",() -> Init.NETHERITE_SEEDS);
+
+        event.register(Registries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),() -> Init.creativeModeTab);
     }
 
     private void registerItem(String name, Supplier<Item> item) {

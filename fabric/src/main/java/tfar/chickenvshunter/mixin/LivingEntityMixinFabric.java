@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tfar.chickenvshunter.ChickenVsHunter;
 
@@ -53,12 +54,21 @@ abstract class LivingEntityMixinFabric extends Entity {
         if (ArmorTrimsMod.attackEvent(selfCast(),source)) {
             cir.setReturnValue(false);
         }
+    }*/
+
+    @Inject(method = "heal",at = @At("HEAD"),cancellable = true)
+    private void healEvent(float healAmount, CallbackInfo ci) {
+        if (ChickenVsHunter.onHeal(selfCast(),healAmount)) {
+            ci.cancel();
+        }
     }
 
-    @Inject(method = "actuallyHurt",at = @At("RETURN"))
-    private void applyWitherPunch(DamageSource damageSource, float damageAmount, CallbackInfo ci) {
-        ArmorTrimsMod.onDamaged(selfCast(),damageSource);
-    }*/
+    @Inject(method = "actuallyHurt",at = @At(value = "INVOKE",target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"),cancellable = true)
+    private void onDamaged(DamageSource damageSource, float damageAmount, CallbackInfo ci) {
+        if (ChickenVsHunter.onDamaged(selfCast(),damageAmount,damageSource)) {
+            ci.cancel();
+        }
+    }
 
 
 

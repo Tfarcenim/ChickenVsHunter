@@ -6,8 +6,19 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Chicken;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
+
+import java.util.UUID;
 
 public class ModCommands {
 
@@ -43,8 +54,17 @@ public class ModCommands {
         return 1;
     }
 
+    static final UUID modifier_uuid = UUID.fromString("91559870-2417-4bc1-aafc-7abed56178c3");
+
+    public static final AttributeModifier SPEEDRUNNER_BUFF = new AttributeModifier(modifier_uuid,"Speedrunner Buff",16, AttributeModifier.Operation.ADDITION);
+
     public static void startGame(ServerPlayer speedrunner) {
         ChickVHunterSavedData.speedrunner = speedrunner.getUUID();
+        ServerLevel serverLevel = speedrunner.serverLevel();
+        Chicken chicken = EntityType.CHICKEN.spawn(serverLevel,speedrunner.blockPosition(), MobSpawnType.COMMAND);
+        chicken.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(SPEEDRUNNER_BUFF);
+        chicken.setHealth(20);
+        chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
+        chicken.setCustomNameVisible(true);
     }
-
 }

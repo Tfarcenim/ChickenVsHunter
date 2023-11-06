@@ -20,7 +20,7 @@ public class Init {
     public static Block GOLDEN_EGG = new GoldenEggBlock(BlockBehaviour.Properties.copy(Blocks.DRAGON_EGG));
     public static BlockItem GOLDEN_EGG_I = new BlockItem(GOLDEN_EGG,new Item.Properties());
     public static Item CHICKEN_AXE = new AxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
-    public static Item CHICKEN_BOW = new BowItem(new Item.Properties());
+    public static Item CHICKEN_BOW = new BowItem(new Item.Properties().durability(384 * 4));
     public static Item CHICKEN_PICKAXE = new PickaxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
     public static Item IRON_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.IRON);
     public static Item GOLD_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.GOLD);

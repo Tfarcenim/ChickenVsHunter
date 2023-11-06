@@ -25,7 +25,7 @@ public class ModBlockModelProvider extends BlockModelGenerators {
 
     @Override
     public void run() {
-        createNonTemplateModelBlock(Init.GOLDEN_EGG,Blocks.DRAGON_EGG);
+        createNonTemplateModelBlock(Init.GOLDEN_EGG);
     }
 
 }

@@ -1,7 +1,9 @@
 package tfar.chickenvshunter;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -55,6 +57,22 @@ public class ChickenVsHunter {
         return InteractionResult.PASS;
     }
 
+    public static void chickenTick(Chicken chicken) {
+        if (!chicken.level().isClientSide) {
+            if (chicken.getVehicle() instanceof Player player) {
+                boolean chickenHelmet = player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
+                if (!chickenHelmet) {
+                    //slowly heal chicken if time has passed
+                    int timeSinceHit = chicken.tickCount - chicken.getLastHurtMobTimestamp();
+                    if (timeSinceHit > 20 * 3) {
+                        chicken.heal(.05f);//this runs 20 times a second
+                    }
+                }
+                chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
+            }
+        }
+    }
+
     public static boolean holdingChicken(Player player) {
         return player.getFirstPassenger() instanceof Chicken && !player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
     }
@@ -62,10 +80,65 @@ public class ChickenVsHunter {
     public static void playerTick(Player player) {
         if (!player.level().isClientSide) {
             if (player.getFirstPassenger() instanceof Chicken) {
-                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 0, 2));
+                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 2, 0,false,false));
             }
         }
     }
+
+    public static boolean onDamaged(LivingEntity livingEntity, float damageAmount, DamageSource damageSource) {
+        //attempting to attack chicken
+        if (livingEntity instanceof Chicken chicken) {
+            Entity vehicle = chicken.getVehicle();
+            if (vehicle instanceof Player player) {
+
+                boolean chestplate = player.getItemBySlot(EquipmentSlot.CHEST).is(Init.CHICKEN_CHESTPLATE);
+                //chicken is not in critical condition
+                if (chicken.getHealth() > 2 && damageAmount < chicken.getHealth()) {
+
+                } else {
+                    //hurt the player instead, chestplate makes chicken take no damage
+                    if (chestplate) {
+                        player.hurt(damageSource, damageAmount);
+                        return true;
+                    }
+                }
+            }
+        } else if (livingEntity instanceof Player player) {
+            Entity passenger = player.getFirstPassenger();
+            if (passenger instanceof Chicken chicken) {
+                boolean helmet = player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
+                if (helmet) {
+                    //chicken takes damage first unless it's critical
+                    if (chicken.getHealth() > 2 && damageAmount < chicken.getHealth()) {
+                        chicken.hurt(damageSource,damageAmount);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean onHeal(LivingEntity entity, float healAmount) {
+        if (entity instanceof Player player && player.getFirstPassenger() instanceof Chicken chicken) {
+            //chicken heals first
+            boolean helmet = player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
+            if (helmet) {
+                float healRemaining = chicken.getMaxHealth() - chicken.getHealth();
+                if (healRemaining > 0) {
+                    float chickenHeal = Math.min(healRemaining,healAmount);
+                    chicken.heal(chickenHeal);
+                    float leftover = healAmount - chickenHeal;
+                    if (leftover > 0) {
+                        player.heal(leftover);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
 
 //- todo i can hold chicken above my head to move chicken around with me
@@ -87,17 +160,17 @@ public class ChickenVsHunter {
 //
 //- todo chicken can talk to other nearby chickens and make other chickens attack the hunters (just normal chickens with normal health that become part of our chicken army when we get within 10 blocks of em)
 //
-//- todo when holding chicken I can glide
+//- when holding chicken I can glide
 //
 // todo - feed the chicken OP seeds:
 //	todo - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
 //
 //		- gold seed: gives chicken axe (durability like diamond, damage as iron)
-//			- turns the hunters into chicken sized versions of them selves temporarily
+//	todo		- turns the hunters into chicken sized versions of them selves temporarily
 //			- reducing their reach and speed in scale to their size
 //
 //		- iron seed: gives chicken pick (durability like diamond, mining speed of iron)
-//			- sends a swarm of chicken to mine out in what ever direction i right click for 10 blocks
+//	todo		- sends a swarm of chicken to mine out in what ever direction i right click for 10 blocks
 //			- sends me all ores and materials mined
 //
 //		- diamond seed: gives chicken bow (bow with unbreaking 3 durability)
