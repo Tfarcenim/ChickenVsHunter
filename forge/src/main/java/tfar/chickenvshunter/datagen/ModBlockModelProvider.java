@@ -3,15 +3,12 @@ package tfar.chickenvshunter.datagen;
 import com.google.gson.JsonElement;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.*;
-import net.minecraft.data.models.model.ModelLocationUtils;
+import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.SculkSensorPhase;
 import tfar.chickenvshunter.Init;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -23,9 +20,29 @@ public class ModBlockModelProvider extends BlockModelGenerators {
         super(pBlockStateOutput, pModelOutput, pSkippedAutoModelsOutput);
     }
 
+
+
     @Override
     public void run() {
-        createNonTemplateModelBlock(Init.GOLDEN_EGG);
+        createTrivialBlock(Init.GOLDEN_EGG, DRAGON_EGG);
+    }
+
+    public static final ModelTemplate DRAGON_EGG_TEMPLATE = create(new ResourceLocation("dragon_egg"), TextureSlot.ALL,TextureSlot.PARTICLE);
+    public static final TexturedModel.Provider DRAGON_EGG = TexturedModel.createDefault(pBlock ->
+                    withTexture(new ResourceLocation("block/gold_block")),
+            DRAGON_EGG_TEMPLATE);
+
+    public static TextureMapping withTexture(ResourceLocation texture) {
+        //should be all
+        TextureMapping textureMapping = TextureMapping.cube(texture);
+        textureMapping.put(TextureSlot.PARTICLE,texture);
+        return textureMapping;
+    }
+
+
+    private static ModelTemplate create(ResourceLocation pBlockModelLocation, TextureSlot... pRequiredSlots) {
+        return new ModelTemplate(Optional.of(new ResourceLocation(pBlockModelLocation.getNamespace(), "block/" + pBlockModelLocation.getPath())),
+                Optional.empty(), pRequiredSlots);
     }
 
 }

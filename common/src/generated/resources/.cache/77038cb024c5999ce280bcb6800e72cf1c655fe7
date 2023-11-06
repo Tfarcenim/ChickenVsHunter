@@ -1,5 +1,6 @@
-// 1.20.1	2023-11-04T22:15:23.9464411	Model Definitions
-ee4716e677494743b4975d26a9abfd5316119d76 assets/chickenvshunter/blockstates/golden_egg.json
+// 1.20.1	2023-11-06T08:35:03.2498566	Model Definitions
+c5e4a6346728c68141550b291232481d6658044a assets/chickenvshunter/blockstates/golden_egg.json
+f1dfdae3e7e7b9e089a5dee6d3c5ff76dc29bb5b assets/chickenvshunter/models/block/golden_egg.json
 d49280870e1ced3b22a1e5c9bbb64decfb8c49e2 assets/chickenvshunter/models/item/chicken_boots.json
 52f015efcf3f1660ab90f3bfe517ce89bc8d68a8 assets/chickenvshunter/models/item/chicken_boots_amethyst_trim.json
 756d24812518bdc8e7a2a80c1fd040c125b62c5c assets/chickenvshunter/models/item/chicken_boots_copper_trim.json
