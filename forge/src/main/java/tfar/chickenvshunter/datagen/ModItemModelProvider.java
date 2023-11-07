@@ -2,10 +2,7 @@ package tfar.chickenvshunter.datagen;
 
 import com.google.gson.JsonElement;
 import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -30,6 +27,11 @@ public class ModItemModelProvider extends ItemModelGenerators {
         generateArmorTrims(Init.CHICKEN_CHESTPLATE);
         generateArmorTrims(Init.CHICKEN_LEGGINGS);
         generateArmorTrims(Init.CHICKEN_BOOTS);
+
+        generateFlatItem(Init.IRON_SEEDS, ModelTemplates.FLAT_ITEM);
+        generateFlatItem(Init.GOLD_SEEDS, ModelTemplates.FLAT_ITEM);
+        generateFlatItem(Init.DIAMOND_SEEDS, ModelTemplates.FLAT_ITEM);
+        generateFlatItem(Init.NETHERITE_SEEDS, ModelTemplates.FLAT_ITEM);
 
   //      generateChickItem(Init.CHICKEN_PICKAXE,"",CHICK_PICK);
     }

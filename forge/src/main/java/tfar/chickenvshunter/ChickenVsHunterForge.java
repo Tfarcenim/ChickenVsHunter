@@ -53,6 +53,7 @@ public class ChickenVsHunterForge {
         registerItem("netherite_seeds",() -> Init.NETHERITE_SEEDS);
 
         event.register(Registries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),() -> Init.creativeModeTab);
+        event.register(Registries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),() -> Init.GOLDEN_EGG_E);
     }
 
     private void registerItem(String name, Supplier<Item> item) {

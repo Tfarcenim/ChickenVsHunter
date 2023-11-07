@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.lang.reflect.Field;
@@ -26,6 +27,8 @@ public class Init {
     public static Item GOLD_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.GOLD);
     public static Item DIAMOND_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.DIAMOND);
     public static Item NETHERITE_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.NETHERITE);
+
+    public static BlockEntityType<GoldenEggBlockEntity> GOLDEN_EGG_E = BlockEntityType.Builder.of(GoldenEggBlockEntity::new,GOLDEN_EGG).build(null);
 
     public static CreativeModeTab creativeModeTab = CreativeModeTab.builder(null,-1)
             .title(Component.translatable(ChickenVsHunter.MOD_ID))

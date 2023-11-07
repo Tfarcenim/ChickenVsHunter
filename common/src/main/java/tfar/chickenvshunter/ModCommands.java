@@ -6,16 +6,15 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.item.ItemStack;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
 
 import java.util.UUID;
@@ -36,6 +35,8 @@ public class ModCommands {
     private static int summonGoldenEgg(CommandContext<CommandSourceStack> context) {
         ServerPlayer player = context.getSource().getPlayer();
         if (player != null) {
+            ItemStack goldEgg = new ItemStack(Init.GOLDEN_EGG);
+            player.drop(goldEgg,false);
             return 1;
         }
         return 0;

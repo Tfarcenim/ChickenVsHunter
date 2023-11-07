@@ -186,7 +186,7 @@ public class ChickenVsHunter {
 //	todo - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
 //
 //		- gold seed: gives chicken axe (durability like diamond, damage as iron)
-//	todo		- turns the hunters into chicken sized versions of them selves temporarily
+//			- turns the hunters into chicken sized versions of them selves temporarily
 //			- reducing their reach and speed in scale to their size
 //
 //		- iron seed: gives chicken pick (durability like diamond, mining speed of iron)
@@ -210,7 +210,7 @@ public class ChickenVsHunter {
 //				- chicken heart effect, in order to kill the chicken you must be slain as well
 //				- so if the chicken is down to 1 heart it is actually immune unless I am dead and no longer wearing the chicken chest piece
 //				- to clarify how this works in conjunction with helmet, chicken takes all damage first it gets onto one heart
-// todo then all the damage goes to me since chicken is on 1 heart and immune now once i am dead and not wearing chest piece chicken is no longer immune and can be killed
+// then all the damage goes to me since chicken is on 1 heart and immune now once i am dead and not wearing chest piece chicken is no longer immune and can be killed
 //
 //			- leggings give:
 //				- chicken legs effect, 25% chance to evade all melee and arrow damage
