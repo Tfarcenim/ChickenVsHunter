@@ -4,13 +4,18 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.RegisterEvent;
+import tfar.chickenvshunter.client.Client;
 import tfar.chickenvshunter.datagen.ModDatagen;
 
 import java.util.function.Supplier;
@@ -29,6 +34,12 @@ public class ChickenVsHunterForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::register);
         bus.addListener(ModDatagen::gather);
+        bus.addListener(this::attribute);
+
+        if (FMLEnvironment.dist.isClient()) {
+            bus.addListener(Client::render);
+        }
+
     }
 
     static RegisterEvent registerHelper;
@@ -54,6 +65,11 @@ public class ChickenVsHunterForge {
 
         event.register(Registries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),() -> Init.creativeModeTab);
         event.register(Registries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),() -> Init.GOLDEN_EGG_E);
+        event.register(Registries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),() -> Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).build("ghicken"));
+    }
+
+    private void attribute(EntityAttributeCreationEvent event) {
+        event.put(Init.GHICKEN,GhickenEntity.createAttributes().build());
     }
 
     private void registerItem(String name, Supplier<Item> item) {
