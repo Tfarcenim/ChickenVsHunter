@@ -2,11 +2,13 @@ package tfar.chickenvshunter;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,6 +21,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -48,6 +53,9 @@ public class ChickenVsHunterFabric implements ModInitializer {
         AttackEntityCallback.EVENT.register(this::attackEntity);
         PlayerBlockBreakEvents.BEFORE.register(this::blockBreak);
         ServerTickEvents.START_WORLD_TICK.register(this::tickLevel);
+
+        FabricDefaultAttributeRegistry.register(Init.GHICKEN,GhickenEntity.createAttributes());
+        EntityRendererRegistry.register((EntityType<? extends GhickenEntity>) Init.GHICKEN, GhickenEntityRenderer::new);
     }
 
     private void tickLevel(ServerLevel serverLevel) {
@@ -95,7 +103,8 @@ public class ChickenVsHunterFabric implements ModInitializer {
         registerItem("netherite_seeds",Init.NETHERITE_SEEDS);
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
-
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);
+        Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),Init.GHICKEN);
     }
 
     public static void registerItem(String name, Item item) {
@@ -107,5 +116,6 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Init.CHICKEN_CHESTPLATE = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.CHESTPLATE, new Item.Properties());
         Init.CHICKEN_LEGGINGS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.LEGGINGS, new Item.Properties());
         Init.CHICKEN_BOOTS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties());
+        Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).build("ghicken");
     }
 }

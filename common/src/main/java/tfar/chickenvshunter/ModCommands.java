@@ -6,6 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
 
@@ -36,6 +38,9 @@ public class ModCommands {
         ServerPlayer player = context.getSource().getPlayer();
         if (player != null) {
             ItemStack goldEgg = new ItemStack(Init.GOLDEN_EGG);
+            CompoundTag compoundTag = new CompoundTag();
+            compoundTag.putInt("timer",28 *20);
+            goldEgg.getOrCreateTag().put(BlockItem.BLOCK_ENTITY_TAG,compoundTag);
             player.drop(goldEgg,false);
             return 1;
         }
