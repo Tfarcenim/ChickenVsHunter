@@ -3,6 +3,7 @@ package tfar.chickenvshunter.platform.services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import tfar.chickenvshunter.ChickenVsHunter;
 
@@ -39,5 +40,7 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    void scalePlayer(ServerPlayer player,float scale);
 
 }

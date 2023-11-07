@@ -3,6 +3,7 @@ package tfar.chickenvshunter;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -14,6 +15,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -45,6 +47,11 @@ public class ChickenVsHunterFabric implements ModInitializer {
         UseEntityCallback.EVENT.register(this::rightClickChicken);
         AttackEntityCallback.EVENT.register(this::attackEntity);
         PlayerBlockBreakEvents.BEFORE.register(this::blockBreak);
+        ServerTickEvents.START_WORLD_TICK.register(this::tickLevel);
+    }
+
+    private void tickLevel(ServerLevel serverLevel) {
+        ChickenVsHunter.worldTick(serverLevel);
     }
 
     private boolean blockBreak(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity) {
@@ -57,7 +64,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
     }
 
     private InteractionResult rightClickChicken(Player player, Level level, InteractionHand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
-        if (entity instanceof Chicken chicken) {
+        if (entity instanceof Chicken chicken && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
             chicken.startRiding(player);
             return InteractionResult.SUCCESS;
         }

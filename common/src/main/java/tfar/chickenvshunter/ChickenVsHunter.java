@@ -1,6 +1,8 @@
 package tfar.chickenvshunter;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,6 +18,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tfar.chickenvshunter.world.deferredevent.DeferredEvent;
+import tfar.chickenvshunter.world.deferredevent.DeferredEventSystem;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -38,6 +42,15 @@ public class ChickenVsHunter {
         // we have an interface in the common code and use a loader specific implementation to delegate our call to
         // the platform specific approach.
 
+    }
+
+    public static DeferredEventSystem getDeferredEventSystem(ServerLevel serverLevel) {
+        return serverLevel.getDataStorage()
+                .computeIfAbsent((CompoundTag tag) -> DeferredEventSystem.loadStatic(tag),DeferredEventSystem::new, "deferredevents");
+    }
+
+    public static void addDeferredEvent(ServerLevel level,DeferredEvent event) {
+        getDeferredEventSystem(level).addDeferredEvent(event);
     }
 
     //return true to cancel fall damage
@@ -70,6 +83,13 @@ public class ChickenVsHunter {
                 }
                 chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
             }
+        }
+    }
+
+    public static void worldTick(Level level) {
+        if (!level.isClientSide) {
+            ServerLevel serverLevel = (ServerLevel) level;
+            getDeferredEventSystem(serverLevel).tickDeferredEvents(serverLevel);
         }
     }
 

@@ -27,7 +27,7 @@ public class ModBlockModelProvider extends BlockModelGenerators {
         createTrivialBlock(Init.GOLDEN_EGG, DRAGON_EGG);
     }
 
-    public static final ModelTemplate DRAGON_EGG_TEMPLATE = create(new ResourceLocation("dragon_egg"), TextureSlot.ALL,TextureSlot.PARTICLE);
+    public static final ModelTemplate DRAGON_EGG_TEMPLATE = create(new ResourceLocation("block/dragon_egg"), TextureSlot.ALL,TextureSlot.PARTICLE);
     public static final TexturedModel.Provider DRAGON_EGG = TexturedModel.createDefault(pBlock ->
                     withTexture(new ResourceLocation("block/gold_block")),
             DRAGON_EGG_TEMPLATE);
@@ -41,7 +41,7 @@ public class ModBlockModelProvider extends BlockModelGenerators {
 
 
     private static ModelTemplate create(ResourceLocation pBlockModelLocation, TextureSlot... pRequiredSlots) {
-        return new ModelTemplate(Optional.of(new ResourceLocation(pBlockModelLocation.getNamespace(), "block/" + pBlockModelLocation.getPath())),
+        return new ModelTemplate(Optional.of(pBlockModelLocation),
                 Optional.empty(), pRequiredSlots);
     }
 

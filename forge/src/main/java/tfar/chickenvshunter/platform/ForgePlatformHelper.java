@@ -1,5 +1,6 @@
 package tfar.chickenvshunter.platform;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import tfar.chickenvshunter.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
@@ -23,5 +24,10 @@ public class ForgePlatformHelper implements IPlatformHelper {
     public boolean isDevelopmentEnvironment() {
 
         return !FMLLoader.isProduction();
+    }
+
+    @Override
+    public void scalePlayer(ServerPlayer player, float scale) {
+
     }
 }
