@@ -29,6 +29,7 @@ public class Init {
     public static Item GOLD_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.GOLD);
     public static Item DIAMOND_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.DIAMOND);
     public static Item NETHERITE_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.NETHERITE);
+    public static ChickenCompassItem CHICKEN_COMPASS = new ChickenCompassItem(new Item.Properties());
     public static EntityType<? extends Mob> GHICKEN;
 
     public static BlockEntityType<GoldenEggBlockEntity> GOLDEN_EGG_E = BlockEntityType.Builder.of(GoldenEggBlockEntity::new,GOLDEN_EGG).build(null);

@@ -25,8 +25,8 @@ public class DeferredEventSystem extends SavedData {
         for (DeferredEvent deferredEvent : futureEvents) {
             deferredEvent.tick();
             if (deferredEvent.isReady()) {
-                boolean worked = deferredEvent.attemptRun(level);
-                if (worked) {
+                boolean finished = deferredEvent.attemptRun(level);
+                if (finished) {
                     oldEvents.add(deferredEvent);
                 }
             }

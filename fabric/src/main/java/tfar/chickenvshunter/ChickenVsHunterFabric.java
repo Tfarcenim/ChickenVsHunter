@@ -101,6 +101,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         registerItem("gold_seeds",Init.GOLD_SEEDS);
         registerItem("diamond_seeds",Init.DIAMOND_SEEDS);
         registerItem("netherite_seeds",Init.NETHERITE_SEEDS);
+        registerItem("chicken_compass",Init.CHICKEN_COMPASS);
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);
@@ -116,6 +117,6 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Init.CHICKEN_CHESTPLATE = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.CHESTPLATE, new Item.Properties());
         Init.CHICKEN_LEGGINGS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.LEGGINGS, new Item.Properties());
         Init.CHICKEN_BOOTS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties());
-        Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).build("ghicken");
+        Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).sized(2,1).build("ghicken");
     }
 }
