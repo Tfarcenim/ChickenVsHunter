@@ -12,12 +12,12 @@
 			},
 			"bones": [
 				{
-					"name": "Head",
+					"name": "armorHead",
 					"pivot": [0, 24, 0]
 				},
 				{
 					"name": "Helmet",
-					"parent": "Head",
+					"parent": "armorHead",
 					"pivot": [0, 28, 0],
 					"cubes": [
 						{"origin": [-4.5, 28.475, -4.5], "size": [9, 4, 9], "inflate": 0.2, "uv": [0, 0]},
@@ -152,12 +152,12 @@
 					]
 				},
 				{
-					"name": "LeftArm",
+					"name": "armorLeftArm",
 					"pivot": [6, 23, 0]
 				},
 				{
 					"name": "PauldronL",
-					"parent": "LeftArm",
+					"parent": "armorLeftArm",
 					"pivot": [5.675, 22, 0],
 					"cubes": [
 						{"origin": [4.675, 20, -2], "size": [4, 4, 4], "inflate": 0.2, "uv": [9, 3], "mirror": true},
@@ -198,12 +198,12 @@
 					]
 				},
 				{
-					"name": "RightArm",
+					"name": "armorRightArm",
 					"pivot": [-6, 23, 0]
 				},
 				{
 					"name": "PauldronR",
-					"parent": "RightArm",
+					"parent": "armorRightArm",
 					"pivot": [-5.675, 22, 0],
 					"cubes": [
 						{"origin": [-8.675, 20, -2], "size": [4, 4, 4], "inflate": 0.2, "uv": [10, 3]},
@@ -242,12 +242,12 @@
 					]
 				},
 				{
-					"name": "LeftLeg",
+					"name": "armorLeftLeg",
 					"pivot": [2, 12, 0]
 				},
 				{
 					"name": "LeggingL",
-					"parent": "LeftLeg",
+					"parent": "armorLeftLeg",
 					"pivot": [1.9, 12, 0],
 					"cubes": [
 						{
@@ -272,7 +272,7 @@
 				},
 				{
 					"name": "BootL",
-					"parent": "LeftLeg",
+					"parent": "armorLeftLeg",
 					"pivot": [1.9, 12, 0],
 					"cubes": [
 						{"origin": [-0.1, -0.025, -2], "size": [4, 3, 4], "inflate": 0.3, "uv": [0, 12], "mirror": true},
@@ -281,12 +281,12 @@
 					]
 				},
 				{
-					"name": "RightLeg",
+					"name": "armorRightLeg",
 					"pivot": [-2, 12, 0]
 				},
 				{
 					"name": "LeggingR",
-					"parent": "RightLeg",
+					"parent": "armorRightLeg",
 					"pivot": [-1.9, 12, 0],
 					"cubes": [
 						{
@@ -313,7 +313,7 @@
 				},
 				{
 					"name": "BootR",
-					"parent": "RightLeg",
+					"parent": "armorRightLeg",
 					"pivot": [-1.9, 12, 0],
 					"cubes": [
 						{"origin": [-3.9, -0.025, -2], "size": [4, 3, 4], "inflate": 0.3, "uv": [0, 12]},
