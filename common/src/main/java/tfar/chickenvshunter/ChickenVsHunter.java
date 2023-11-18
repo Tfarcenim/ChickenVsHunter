@@ -1,5 +1,6 @@
 package tfar.chickenvshunter;
 
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +19,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tfar.chickenvshunter.world.ChickVHunterSavedData;
 import tfar.chickenvshunter.world.deferredevent.DeferredEvent;
 import tfar.chickenvshunter.world.deferredevent.DeferredEventSystem;
 
@@ -83,6 +85,9 @@ public class ChickenVsHunter {
                 }
                 chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
             }
+        }
+        if (chicken.getUUID().equals(ChickVHunterSavedData.chicken)) {
+            Init.CHICKEN_COMPASS.pos = GlobalPos.of(chicken.level().dimension(),chicken.blockPosition());
         }
     }
 

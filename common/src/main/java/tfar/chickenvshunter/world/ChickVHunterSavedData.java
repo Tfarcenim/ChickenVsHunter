@@ -9,8 +9,7 @@ import java.util.UUID;
 public class ChickVHunterSavedData extends SavedData {
 
     public static UUID speedrunner;
-
-    public static Vec3 chicken_location = Vec3.ZERO;
+    public static UUID chicken;
 
     @Override
     public CompoundTag save(CompoundTag var1) {

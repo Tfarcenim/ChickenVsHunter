@@ -68,6 +68,7 @@ public class ModCommands {
         ChickVHunterSavedData.speedrunner = speedrunner.getUUID();
         ServerLevel serverLevel = speedrunner.serverLevel();
         Chicken chicken = EntityType.CHICKEN.spawn(serverLevel,speedrunner.blockPosition(), MobSpawnType.COMMAND);
+        ChickVHunterSavedData.chicken = chicken.getUUID();
         chicken.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(SPEEDRUNNER_BUFF);
         chicken.setHealth(20);
         chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));

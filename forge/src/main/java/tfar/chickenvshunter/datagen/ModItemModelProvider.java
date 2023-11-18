@@ -5,6 +5,7 @@ import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import tfar.chickenvshunter.ChickenVsHunter;
 import tfar.chickenvshunter.Init;
@@ -32,8 +33,10 @@ public class ModItemModelProvider extends ItemModelGenerators {
         generateFlatItem(Init.GOLD_SEEDS, ModelTemplates.FLAT_ITEM);
         generateFlatItem(Init.DIAMOND_SEEDS, ModelTemplates.FLAT_ITEM);
         generateFlatItem(Init.NETHERITE_SEEDS, ModelTemplates.FLAT_ITEM);
+        this.generateCompassItem(Init.CHICKEN_COMPASS);
 
-  //      generateChickItem(Init.CHICKEN_PICKAXE,"",CHICK_PICK);
+
+        //      generateChickItem(Init.CHICKEN_PICKAXE,"",CHICK_PICK);
     }
 
 
