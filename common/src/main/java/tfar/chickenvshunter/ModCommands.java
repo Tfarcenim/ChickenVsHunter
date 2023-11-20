@@ -15,10 +15,12 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ModCommands {
@@ -73,5 +75,9 @@ public class ModCommands {
         chicken.setHealth(20);
         chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
         chicken.setCustomNameVisible(true);
+        List<ServerPlayer> allPlayers = serverLevel.getServer().getPlayerList().getPlayers();
+        for (Player player : allPlayers) {
+            player.getInventory().add(Init.CHICKEN_COMPASS.getDefaultInstance());
+        }
     }
 }

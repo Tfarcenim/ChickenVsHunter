@@ -48,7 +48,7 @@ public class ChickenVsHunter {
 
     public static DeferredEventSystem getDeferredEventSystem(ServerLevel serverLevel) {
         return serverLevel.getDataStorage()
-                .computeIfAbsent((CompoundTag tag) -> DeferredEventSystem.loadStatic(tag),DeferredEventSystem::new, "deferredevents");
+                .computeIfAbsent(DeferredEventSystem::loadStatic,DeferredEventSystem::new, "deferredevents");
     }
 
     public static void addDeferredEvent(ServerLevel level,DeferredEvent event) {
@@ -166,14 +166,14 @@ public class ChickenVsHunter {
 
 }
 
-//- todo i can hold chicken above my head to move chicken around with me
+//- i can hold chicken above my head to move chicken around with me
 //	todo - cannot do anything with my hands at this point, like attack or mine etc...
 //
-//- todo chicken shows its HP out of 20 over its head for everyone to see
+//- chicken shows its HP out of 20 over its head for everyone to see
 //
-//- todo chicken starts to slowly regain health after 3 seconds of not being hit
+//- chicken starts to slowly regain health after 3 seconds of not being hit
 //
-//- todo hunters and I both have a compass to track chicken
+//- hunters and I both have a compass to track chicken
 //
 //- can shoot eggs that when thrown it tps me to egg location even when in mid air if i click to "throw" the egg again
 //	- if it lands on block before i click again it just acts like an ender pearl but rather then taking damage we appear in a poof of feathers and dont take damage
@@ -181,14 +181,15 @@ public class ChickenVsHunter {
 //	- dont need egg to show in my hand egg should shoot from the chicken above my head
 //	- egg should have ender pearl physics when thrown/ shot
 //
-//- todo random chance every 2 minutes that it will poop 1 chicken when im holding it that will fight hunters for us, and follow us when we are moving around (chickens that will act like wolves basically and have same HP as main chicken so 20hp)
+// todo random chance every 2 minutes that it will poop 1 chicken when im holding it that will fight hunters for us, and follow us when we are moving around (chickens that will act like wolves basically and have same HP as main chicken so 20hp)
 //
 //- todo chicken can talk to other nearby chickens and make other chickens attack the hunters (just normal chickens with normal health that become part of our chicken army when we get within 10 blocks of em)
 //
 //- when holding chicken I can glide
 //
 // todo - feed the chicken OP seeds:
-//	todo - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
+//
+// todo - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
 //
 //		- gold seed: gives chicken axe (durability like diamond, damage as iron)
 //			- turns the hunters into chicken sized versions of them selves temporarily
@@ -199,8 +200,9 @@ public class ChickenVsHunter {
 //			- sends me all ores and materials mined
 //
 //		- diamond seed: gives chicken bow (bow with unbreaking 3 durability)
-//			- launches chicken eggs that when landed 3 chickens appear that murder everything in site then dissapear after 5 seconds
-//			- very small chance any one of the chickens explodes when it disapears
+//	todo - launches chicken eggs that when landed 3 chickens appear that murder everything in site then dissapear after 5 seconds
+//
+//todo		- very small chance any one of the chickens explodes when it disapears
 //
 //		- netherite seed: gives full set of chicken armour (netherite tiered armour thats chicken themed)
 //			- boots give:
@@ -230,7 +232,10 @@ public class ChickenVsHunter {
 //			- chicken has speed 2
 //
 //- command that give me a golden egg in my inv (looks like a dragon egg, that says it will be ready for summoning in 10 mins and will summon a chicken god to help in our conquest for victory)
-//	- when the egg is used a giant chicken ghast thing is summoned called the ghacken (can use ghast as base ill have a similar model remade or a retexture made to make it a combination of ghast and chicken)
-//		- it shoots giant chicken eggs (ghast fireballs) at hunters that also have a chance of landing and summoning another ghacken
-//		- it strikes lightning down randomly all around it
-//		- it summons chicken warriors that rain down from the sky that seek out hunters to kill (just like the chicken wolf things from earlier)
+// todo	- when the egg is used a giant chicken ghast thing is summoned called the ghacken (can use ghast as base ill have a similar model remade or a retexture made to make it a combination of ghast and chicken)
+//
+//	todo	- it shoots giant chicken eggs (ghast fireballs) at hunters that also have a chance of landing and summoning another ghacken
+//
+//	todo	- it strikes lightning down randomly all around it
+//
+//	todo	- it summons chicken warriors that rain down from the sky that seek out hunters to kill (just like the chicken wolf things from earlier)

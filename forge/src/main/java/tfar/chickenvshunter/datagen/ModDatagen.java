@@ -19,6 +19,7 @@ public class ModDatagen {
         PackOutput packOutput = dataGenerator.getPackOutput();
         dataGenerator.addProvider(client,new ModModelProvider(packOutput));
         dataGenerator.addProvider(client,new ModLangProvider(packOutput));
+        dataGenerator.addProvider(event.includeServer(),new ModRecipeProvider(packOutput));
     }
 
     public static Stream<Block> getKnownBlocks() {
