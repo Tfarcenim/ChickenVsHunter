@@ -9,9 +9,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -65,7 +63,7 @@ public class ChickenVsHunter {
             if  (chicken == target) {
                 return InteractionResult.FAIL;
             }
-            if (player.getItemBySlot(EquipmentSlot.FEET).is(Init.CHICKEN_HELMET)) {
+            if (!player.getItemBySlot(EquipmentSlot.FEET).is(Init.CHICKEN_HELMET)) {
                 return InteractionResult.FAIL;
             }
         }
@@ -84,6 +82,15 @@ public class ChickenVsHunter {
                     }
                 }
                 chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
+                ChickenDuck chickenDuck = (ChickenDuck) chicken;
+                int reinfecementTime  = chickenDuck.getReinforcementTime();
+                chickenDuck.setReinforcementTime(reinfecementTime - 1);
+                if (reinfecementTime <=0) {
+                    ServerLevel serverLevel = (ServerLevel) chicken.level();
+                    Chicken chicken1 = EntityType.CHICKEN.spawn(serverLevel,player.blockPosition(), MobSpawnType.COMMAND);
+                    ((ChickenDuck)chicken1).setOwnerUUID(player.getUUID());
+                    chickenDuck.setReinforcementTime(ChickVHunterSavedData.REINFORCEMENT_DELAY);
+                }
             }
         }
         if (chicken.getUUID().equals(ChickVHunterSavedData.chicken)) {
@@ -167,7 +174,7 @@ public class ChickenVsHunter {
 }
 
 //- i can hold chicken above my head to move chicken around with me
-//	todo - cannot do anything with my hands at this point, like attack or mine etc...
+//	- cannot do anything with my hands at this point, like attack or mine etc...
 //
 //- chicken shows its HP out of 20 over its head for everyone to see
 //

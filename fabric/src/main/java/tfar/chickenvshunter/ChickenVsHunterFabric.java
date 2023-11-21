@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.commands.CommandBuildContext;
@@ -32,6 +33,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,9 +55,19 @@ public class ChickenVsHunterFabric implements ModInitializer {
         AttackEntityCallback.EVENT.register(this::attackEntity);
         PlayerBlockBreakEvents.BEFORE.register(this::blockBreak);
         ServerTickEvents.START_WORLD_TICK.register(this::tickLevel);
+        UseBlockCallback.EVENT.register(this::useBlock);
 
         FabricDefaultAttributeRegistry.register(Init.GHICKEN,GhickenEntity.createAttributes());
         EntityRendererRegistry.register((EntityType<? extends GhickenEntity>) Init.GHICKEN, GhickenEntityRenderer::new);
+    }
+
+
+    private InteractionResult useBlock(Player player, Level level, InteractionHand hand, BlockHitResult blockHitResult) {
+        Entity passenger = player.getFirstPassenger();
+        if (passenger instanceof Chicken) {
+            return InteractionResult.FAIL;
+        }
+        return InteractionResult.PASS;
     }
 
     private void tickLevel(ServerLevel serverLevel) {

@@ -10,7 +10,8 @@
     "PlayerMixinFabric"
   ],
   "client": [
-    "EntityRendererFabricMixin"
+    "EntityRendererFabricMixin",
+    "ItemInHandRendererMixinFabric"
   ],
   "server": [
   ],
