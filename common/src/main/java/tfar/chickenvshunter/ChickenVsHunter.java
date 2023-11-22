@@ -1,7 +1,6 @@
 package tfar.chickenvshunter;
 
 import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -10,6 +9,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -17,6 +17,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
 import tfar.chickenvshunter.world.deferredevent.DeferredEvent;
 import tfar.chickenvshunter.world.deferredevent.DeferredEventSystem;
@@ -90,6 +91,8 @@ public class ChickenVsHunter {
                     Chicken chicken1 = EntityType.CHICKEN.spawn(serverLevel,player.blockPosition(), MobSpawnType.COMMAND);
                     ((ChickenDuck)chicken1).setOwnerUUID(player.getUUID());
                     chickenDuck.setReinforcementTime(ChickVHunterSavedData.REINFORCEMENT_DELAY);
+                    chicken1.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(ModCommands.SPEEDRUNNER_BUFF);
+                    chicken1.setHealth(20);
                 }
             }
         }
@@ -188,7 +191,7 @@ public class ChickenVsHunter {
 //	- dont need egg to show in my hand egg should shoot from the chicken above my head
 //	- egg should have ender pearl physics when thrown/ shot
 //
-// todo random chance every 2 minutes that it will poop 1 chicken when im holding it that will fight hunters for us, and follow us when we are moving around (chickens that will act like wolves basically and have same HP as main chicken so 20hp)
+// random chance every 2 minutes that it will poop 1 chicken when im holding it that will fight hunters for us, and follow us when we are moving around (chickens that will act like wolves basically and have same HP as main chicken so 20hp)
 //
 //- todo chicken can talk to other nearby chickens and make other chickens attack the hunters (just normal chickens with normal health that become part of our chicken army when we get within 10 blocks of em)
 //

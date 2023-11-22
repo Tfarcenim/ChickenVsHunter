@@ -5,7 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import tfar.chickenvshunter.PlayerDuck;
+import tfar.chickenvshunter.ducks.PlayerDuck;
 
 @Mixin(Player.class)
 abstract class PlayerMixin extends LivingEntity implements PlayerDuck{

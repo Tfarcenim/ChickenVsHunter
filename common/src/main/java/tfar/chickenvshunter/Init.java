@@ -1,6 +1,5 @@
 package tfar.chickenvshunter;
 
-import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;

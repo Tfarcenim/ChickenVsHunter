@@ -6,7 +6,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ChickenMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "ThrownEggMixin"
   ],
   "client": [
     "HumanoidModelMixin",

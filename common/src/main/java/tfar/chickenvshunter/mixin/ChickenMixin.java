@@ -2,7 +2,6 @@ package tfar.chickenvshunter.mixin;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -18,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import tfar.chickenvshunter.ChickenDuck;
+import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.CustomFollowOwnerGoal;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
 

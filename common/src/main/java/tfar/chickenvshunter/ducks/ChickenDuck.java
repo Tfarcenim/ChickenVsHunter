@@ -1,4 +1,4 @@
-package tfar.chickenvshunter;
+package tfar.chickenvshunter.ducks;
 
 import java.util.UUID;
 
