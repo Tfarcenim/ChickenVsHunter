@@ -23,14 +23,6 @@ public class OpSeedItem extends Item {
     };
     public static final Consumer<Player> GOLD = player -> {
         player.drop(new ItemStack(Init.CHICKEN_AXE),false);
-        List<ServerPlayer> hunters = player.getServer().getPlayerList().getPlayers();
-        for (ServerPlayer hunter : hunters) {
-           // if (!hunter.getUUID().equals(ChickVHunterSavedData.speedrunner)) {
-                Services.PLATFORM.scalePlayer(hunter, .5f);
-                ScaleLater scaleLater = new ScaleLater(300, (ServerPlayer) player,2);
-                ChickenVsHunter.addDeferredEvent(hunter.serverLevel(),scaleLater);
-         //   }
-        }
     };
     public static final Consumer<Player> DIAMOND = player -> {};
     public static final Consumer<Player> NETHERITE = player -> {
