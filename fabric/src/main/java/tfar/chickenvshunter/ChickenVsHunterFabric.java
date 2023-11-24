@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
+import tfar.chickenvshunter.network.PacketHandler;
 
 public class ChickenVsHunterFabric implements ModInitializer {
 
@@ -51,7 +52,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         initializeItems();
         register();
         CommandRegistrationCallback.EVENT.register(this::commands);
-        UseEntityCallback.EVENT.register(this::rightClickChicken);
+    //    UseEntityCallback.EVENT.register(this::rightClickChicken);
         AttackEntityCallback.EVENT.register(this::attackEntity);
         PlayerBlockBreakEvents.BEFORE.register(this::blockBreak);
         ServerTickEvents.START_WORLD_TICK.register(this::tickLevel);
@@ -59,6 +60,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
 
         FabricDefaultAttributeRegistry.register(Init.GHICKEN,GhickenEntity.createAttributes());
         EntityRendererRegistry.register((EntityType<? extends GhickenEntity>) Init.GHICKEN, GhickenEntityRenderer::new);
+        PacketHandler.registerMessages();
     }
 
 

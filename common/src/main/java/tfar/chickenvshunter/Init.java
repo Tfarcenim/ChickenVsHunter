@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import tfar.chickenvshunter.item.ChickenAxeItem;
+import tfar.chickenvshunter.item.ChickenPickaxeItem;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class Init {
     public static BlockItem GOLDEN_EGG_I = new BlockItem(GOLDEN_EGG,new Item.Properties());
     public static Item CHICKEN_AXE = new ChickenAxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
     public static Item CHICKEN_BOW = new BowItem(new Item.Properties().durability(384 * 4));
-    public static Item CHICKEN_PICKAXE = new PickaxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
+    public static Item CHICKEN_PICKAXE = new ChickenPickaxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
     public static Item IRON_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.IRON);
     public static Item GOLD_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.GOLD);
     public static Item DIAMOND_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.DIAMOND);

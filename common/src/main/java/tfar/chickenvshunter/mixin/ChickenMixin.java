@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import tfar.chickenvshunter.RemoveSpecificBlockGoal;
 import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.CustomFollowOwnerGoal;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
@@ -43,6 +44,7 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
     @Inject(method = "registerGoals",at = @At("RETURN"))
     private void addCustomGoals(CallbackInfo ci) {
         this.goalSelector.addGoal(6,new CustomFollowOwnerGoal(this, 1, 10, 2, false));
+        this.goalSelector.addGoal(5,new RemoveSpecificBlockGoal(this,1,3));
     }
 
     @Inject(method = "createAttributes",at = @At("RETURN"))

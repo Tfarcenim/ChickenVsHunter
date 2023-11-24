@@ -1,11 +1,15 @@
 package tfar.chickenvshunter;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.glfw.GLFW;
 
 public class ChickenVsHunterClient {
+
+    public static KeyMapping PICKUP_CHICKEN = new KeyMapping("pickup_chicken", GLFW.GLFW_KEY_I,"key.categories.chickenvshunter");
 
     public static void setup() {
         ItemProperties.register(Init.CHICKEN_COMPASS, new ResourceLocation("angle"), new CompassItemPropertyFunction((p_234983_, p_234984_, entity) -> {

@@ -3,6 +3,7 @@ package tfar.chickenvshunter;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,8 +13,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +26,8 @@ import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
 import tfar.chickenvshunter.world.deferredevent.DeferredEvent;
 import tfar.chickenvshunter.world.deferredevent.DeferredEventSystem;
+
+import java.util.function.Predicate;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -111,6 +118,26 @@ public class ChickenVsHunter {
     public static boolean holdingChicken(Player player) {
         return player.getFirstPassenger() instanceof Chicken && !player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
     }
+
+    public static void pickupChicken(ServerPlayer player, int id) {
+        Entity entity = player.serverLevel().getEntity(id);
+        if (entity instanceof Chicken chicken) {
+            chicken.startRiding(player,true);
+        }
+    }
+
+    public static void dropChicken(ServerPlayer player,int id) {
+        if (player.getFirstPassenger() instanceof Chicken chicken) {
+            chicken.stopRiding();
+        } else {
+            Entity entity = player.level().getEntity(id);
+            if (entity instanceof Chicken chicken) {
+                chicken.startRiding(player);
+            }
+        }
+    }
+
+    static final Predicate<Entity> PREDICATE = entity -> !entity.isSpectator() && entity.isPickable();
 
     public static void playerTick(Player player) {
         if (!player.level().isClientSide) {

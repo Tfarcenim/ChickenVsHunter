@@ -18,12 +18,8 @@ import java.util.function.Consumer;
 
 public class OpSeedItem extends Item {
 
-    public static final Consumer<Player> IRON = player -> {
-        player.drop(new ItemStack(Init.CHICKEN_PICKAXE),false);
-    };
-    public static final Consumer<Player> GOLD = player -> {
-        player.drop(new ItemStack(Init.CHICKEN_AXE),false);
-    };
+    public static final Consumer<Player> IRON = player -> player.drop(new ItemStack(Init.CHICKEN_PICKAXE),false);
+    public static final Consumer<Player> GOLD = player -> player.drop(new ItemStack(Init.CHICKEN_AXE),false);
     public static final Consumer<Player> DIAMOND = player -> {};
     public static final Consumer<Player> NETHERITE = player -> {
         player.drop(new ItemStack(Init.CHICKEN_HELMET),false);
