@@ -26,9 +26,9 @@ public class ChickVHunterSavedData extends SavedData {
         BlockPos start = ((BlockHitResult)pick).getBlockPos();
         toBreak.clear();
         toBreak.add(start);
-        for (int i = 0; i < 10; i++) {
-            toBreak.add(start.offset(i,0,0));
-        }
+        //for (int i = 0; i < 10; i++) {
+      //      toBreak.add(start.offset(i,0,0));
+      //  }
     }
 
     public static boolean isHunter(Player player) {

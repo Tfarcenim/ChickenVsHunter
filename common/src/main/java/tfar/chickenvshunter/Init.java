@@ -3,6 +3,7 @@ package tfar.chickenvshunter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -32,6 +33,7 @@ public class Init {
     public static Item NETHERITE_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.NETHERITE);
     public static ChickenCompassItem CHICKEN_COMPASS = new ChickenCompassItem(new Item.Properties());
     public static EntityType<? extends Mob> GHICKEN;
+    public static EntityType<? extends AbstractHurtingProjectile> GHICKEN_FIREBALL;
 
     public static BlockEntityType<GoldenEggBlockEntity> GOLDEN_EGG_E = BlockEntityType.Builder.of(GoldenEggBlockEntity::new,GOLDEN_EGG).build(null);
 

@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -16,14 +15,12 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
@@ -36,6 +33,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
+import tfar.chickenvshunter.entity.GhickenEntity;
+import tfar.chickenvshunter.entity.GhickenFireballEntity;
 import tfar.chickenvshunter.network.PacketHandler;
 
 public class ChickenVsHunterFabric implements ModInitializer {
@@ -120,6 +119,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),Init.GHICKEN);
+        Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken_fireball"),Init.GHICKEN_FIREBALL);
     }
 
     public static void registerItem(String name, Item item) {
@@ -132,5 +132,6 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Init.CHICKEN_LEGGINGS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.LEGGINGS, new Item.Properties());
         Init.CHICKEN_BOOTS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties());
         Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).sized(2,1).build("ghicken");
+        Init.GHICKEN_FIREBALL = EntityType.Builder.<GhickenFireballEntity>of(GhickenFireballEntity::new, MobCategory.MISC).sized(2,1).build("ghicken_fireball");
     }
 }

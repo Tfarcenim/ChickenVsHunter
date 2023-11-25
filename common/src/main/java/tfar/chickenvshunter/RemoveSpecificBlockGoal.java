@@ -16,9 +16,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
-
-import javax.annotation.Nullable;
 
 public class RemoveSpecificBlockGoal extends MoveToBlockGoal {
     private final Mob removerMob;
@@ -47,6 +46,11 @@ public class RemoveSpecificBlockGoal extends MoveToBlockGoal {
     }
 
     @Override
+    public double acceptedDistance() {
+        return 2;
+    }
+
+    @Override
     protected boolean findNearestBlock() {
         if (ChickVHunterSavedData.toBreak.isEmpty()) return false;
         blockPos = ChickVHunterSavedData.toBreak.get(0);
@@ -69,32 +73,32 @@ public class RemoveSpecificBlockGoal extends MoveToBlockGoal {
     }
 
     public void playBreakSound(Level $$0, BlockPos $$1) {
-        ChickVHunterSavedData.toBreak.remove(0);
+
     }
 
     @Override
     public void tick() {
         super.tick();
-        Level $$0 = this.removerMob.level();
-        BlockPos $$1 = this.removerMob.blockPosition();
-        BlockPos $$2 = this.getPosWithBlock($$1, $$0);
+        Level level = this.removerMob.level();
+        BlockPos mobPos = this.removerMob.blockPosition();
+        BlockPos $$2 = this.getPosWithBlock(mobPos, level);
         RandomSource $$3 = this.removerMob.getRandom();
         if (this.isReachedTarget() && $$2 != null) {
             if (this.ticksSinceReachedGoal > 0) {
                 Vec3 $$4 = this.removerMob.getDeltaMovement();
                 this.removerMob.setDeltaMovement($$4.x, 0.3, $$4.z);
-                if (!$$0.isClientSide) {
-                    double $$5 = 0.08;
-                    ((ServerLevel)$$0)
+                if (!level.isClientSide) {
+                    double d0 = 0.08;
+                    ((ServerLevel)level)
                             .sendParticles(
                                     new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(Items.EGG)),
                                     (double)$$2.getX() + 0.5,
                                     (double)$$2.getY() + 0.7,
                                     (double)$$2.getZ() + 0.5,
                                     3,
-                                    ((double)$$3.nextFloat() - 0.5) * 0.08,
-                                    ((double)$$3.nextFloat() - 0.5) * 0.08,
-                                    ((double)$$3.nextFloat() - 0.5) * 0.08,
+                                    ((double)$$3.nextFloat() - 0.5) * d0,
+                                    ((double)$$3.nextFloat() - 0.5) * d0,
+                                    ((double)$$3.nextFloat() - 0.5) * d0,
                                     0.15F
                             );
                 }
@@ -104,24 +108,28 @@ public class RemoveSpecificBlockGoal extends MoveToBlockGoal {
                 Vec3 $$6 = this.removerMob.getDeltaMovement();
                 this.removerMob.setDeltaMovement($$6.x, -0.3, $$6.z);
                 if (this.ticksSinceReachedGoal % 6 == 0) {
-                    this.playDestroyProgressSound($$0, this.blockPos);
+                    this.playDestroyProgressSound(level, this.blockPos);
                 }
             }
 
-            if (this.ticksSinceReachedGoal > 60) {
-                $$0.removeBlock($$2, false);
-                if (!$$0.isClientSide) {
+            if (this.ticksSinceReachedGoal > 15) {
+                level.removeBlock($$2, false);
+                if (!level.isClientSide) {
                     for(int $$7 = 0; $$7 < 20; ++$$7) {
                         double $$8 = $$3.nextGaussian() * 0.02;
                         double $$9 = $$3.nextGaussian() * 0.02;
                         double $$10 = $$3.nextGaussian() * 0.02;
-                        ((ServerLevel)$$0)
+                        ((ServerLevel)level)
                                 .sendParticles(
                                         ParticleTypes.POOF, (double)$$2.getX() + 0.5, $$2.getY(), (double)$$2.getZ() + 0.5, 1, $$8, $$9, $$10, 0.15F
                                 );
                     }
 
-                    this.playBreakSound($$0, $$2);
+                    if (!ChickVHunterSavedData.toBreak.isEmpty()) {
+                        ChickVHunterSavedData.toBreak.remove(0);
+                    }
+
+                    this.playBreakSound(level, $$2);
                 }
             }
 
@@ -130,8 +138,16 @@ public class RemoveSpecificBlockGoal extends MoveToBlockGoal {
     }
 
     @Nullable
-    private BlockPos getPosWithBlock(BlockPos $$0, BlockGetter $$1) {
-        return $$0;
+    private BlockPos getPosWithBlock(BlockPos pos, BlockGetter level) {
+        if (!level.getBlockState(pos).isAir()) {
+            return pos;
+        }
+        BlockPos[] blockPoss =new BlockPos[]{pos.below(), pos.west(), pos.east(), pos.north(), pos.south(), pos.below().below()};
+        for (BlockPos blockPos : blockPoss) {
+            if (level.getBlockState(blockPos).isAir()) continue;
+            return blockPos;
+        }
+        return null;
     }
 
     @Override

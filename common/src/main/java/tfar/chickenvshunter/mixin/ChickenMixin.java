@@ -44,7 +44,7 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
     @Inject(method = "registerGoals",at = @At("RETURN"))
     private void addCustomGoals(CallbackInfo ci) {
         this.goalSelector.addGoal(6,new CustomFollowOwnerGoal(this, 1, 10, 2, false));
-        this.goalSelector.addGoal(5,new RemoveSpecificBlockGoal(this,1,3));
+        this.goalSelector.addGoal(4,new RemoveSpecificBlockGoal(this,1,3));
     }
 
     @Inject(method = "createAttributes",at = @At("RETURN"))
