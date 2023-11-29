@@ -50,6 +50,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
         super.registerGoals();
         this.goalSelector.addGoal(7, new GhastShootFireballGoal(this));
         this.goalSelector.addGoal(5, new RandomFloatAroundGoal(this));
+        this.goalSelector.addGoal(7, new GhastLookGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (living) ->
                 Math.abs(living.getY() - this.getY()) <= 4.0D));
     }
@@ -151,7 +152,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
     }
 
     int getExplosionPower() {
-        return 4;
+        return 1;
     }
 
     static class GhastShootFireballGoal extends Goal {
@@ -202,20 +203,21 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
                     ++this.chargeTime;
                     if (this.chargeTime == 10 && !this.ghicken.isSilent()) {
                         level.levelEvent(null, 1015, this.ghicken.blockPosition(), 0);
+                        //ghicken.setAnimation();
                     }
 
                     if (this.chargeTime == 20) {
-                        double d1 = 4.0D;
+                        double d1 = 3D;
                         Vec3 vec3 = this.ghicken.getViewVector(1.0F);
-                        double d2 = livingentity.getX() - (this.ghicken.getX() + vec3.x * 4.0D);
+                        double d2 = livingentity.getX() - (this.ghicken.getX() + vec3.x * d1);
                         double d3 = livingentity.getY(0.5D) - (0.5D + this.ghicken.getY(0.5D));
-                        double d4 = livingentity.getZ() - (this.ghicken.getZ() + vec3.z * 4.0D);
+                        double d4 = livingentity.getZ() - (this.ghicken.getZ() + vec3.z * d1);
                         if (!this.ghicken.isSilent()) {
                             level.levelEvent(null, 1016, this.ghicken.blockPosition(), 0);
                         }
 
                         LargeFireball largefireball = new LargeFireball(level, this.ghicken, d2, d3, d4, this.ghicken.getExplosionPower());
-                        largefireball.setPos(this.ghicken.getX() + vec3.x * 4.0D, this.ghicken.getY(0.5D) + 0.5D, largefireball.getZ() + vec3.z * 4.0D);
+                        largefireball.setPos(this.ghicken.getX() + vec3.x * d1, this.ghicken.getY(0.5D) + 0.5D, largefireball.getZ() + vec3.z * d1);
                         level.addFreshEntity(largefireball);
                         this.chargeTime = -40;
                     }
@@ -310,8 +312,6 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
                     this.ghast.yBodyRot = this.ghast.getYRot();
                 }
             }
-
         }
     }
-
 }

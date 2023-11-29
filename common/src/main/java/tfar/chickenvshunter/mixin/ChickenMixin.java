@@ -2,6 +2,7 @@ package tfar.chickenvshunter.mixin;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,11 +29,26 @@ import java.util.UUID;
 @Mixin(Chicken.class)
 public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck, OwnableEntity {
 
+    @Shadow public int eggTime;
     private final NearestAttackableTargetGoal targetHunters = new NearestAttackableTargetGoal<>((Chicken)(Object)this, Player.class,true, entity ->
             entity instanceof Player player && ChickVHunterSavedData.isHunter(player));
 
+    private final NearestAttackableTargetGoal targetEverything = new NearestAttackableTargetGoal<>((Chicken)(Object)this, LivingEntity.class,true, ChickenMixin::isNotSpeedrunnerOrChicken);
+
     private final MeleeAttackGoal meleeAttack = new MeleeAttackGoal(this, 1.0D, true);
 
+
+    private static boolean isNotSpeedrunnerOrChicken(LivingEntity entity) {
+        if (entity.getUUID().equals(ChickVHunterSavedData.speedrunner)) {
+            return false;
+        }
+        if (entity instanceof Chicken) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean superHostile = true;
 
     private int reinforcementTime = ChickVHunterSavedData.REINFORCEMENT_DELAY;
     @Nullable
@@ -44,7 +61,6 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
     @Inject(method = "registerGoals",at = @At("RETURN"))
     private void addCustomGoals(CallbackInfo ci) {
         this.goalSelector.addGoal(6,new CustomFollowOwnerGoal(this, 1, 10, 2, false));
-        this.goalSelector.addGoal(4,new RemoveSpecificBlockGoal(this,1,3));
     }
 
     @Inject(method = "createAttributes",at = @At("RETURN"))
@@ -86,11 +102,17 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
         reinforcementTime = time;
     }
 
+    @Override
     public void reassessGoals() {
         if (this.level() != null && !this.level().isClientSide) {
             this.targetSelector.removeGoal(targetHunters);
             this.goalSelector.removeGoal(meleeAttack);
-            if (ownerUUID != null) {
+            this.targetSelector.removeGoal(targetEverything);
+
+            if (superHostile) {
+                targetSelector.addGoal(2,targetEverything);
+                this.goalSelector.addGoal(3,meleeAttack);
+            } else if (ownerUUID != null) {
                 this.targetSelector.addGoal(4, this.targetHunters);
                 this.goalSelector.addGoal(5,meleeAttack);
             }

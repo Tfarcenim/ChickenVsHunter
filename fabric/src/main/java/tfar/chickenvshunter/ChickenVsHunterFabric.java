@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
+import tfar.chickenvshunter.client.BasicArrowRenderer;
 import tfar.chickenvshunter.entity.GhickenEntity;
 import tfar.chickenvshunter.entity.GhickenFireballEntity;
 import tfar.chickenvshunter.network.PacketHandler;
@@ -59,6 +60,8 @@ public class ChickenVsHunterFabric implements ModInitializer {
 
         FabricDefaultAttributeRegistry.register(Init.GHICKEN,GhickenEntity.createAttributes());
         EntityRendererRegistry.register((EntityType<? extends GhickenEntity>) Init.GHICKEN, GhickenEntityRenderer::new);
+        EntityRendererRegistry.register(Init.CHICKEN_ARROW, BasicArrowRenderer::new);
+
         PacketHandler.registerMessages();
     }
 
@@ -120,6 +123,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),Init.GHICKEN);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken_fireball"),Init.GHICKEN_FIREBALL);
+        Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"chicken_arrow"),Init.CHICKEN_ARROW);
     }
 
     public static void registerItem(String name, Item item) {

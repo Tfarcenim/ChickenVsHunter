@@ -8,4 +8,6 @@ public interface ChickenDuck {
     void setReinforcementTime(int time);
     void setOwnerUUID(UUID ownerUUID);
 
+    void reassessGoals();
+
 }

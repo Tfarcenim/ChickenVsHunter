@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"move": {
+		"move.fly": {
 			"animation_length": 0.5,
 			"bones": {
 				"Eller": {
