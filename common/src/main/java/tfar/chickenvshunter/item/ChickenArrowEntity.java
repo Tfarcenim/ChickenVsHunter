@@ -1,6 +1,7 @@
 package tfar.chickenvshunter.item;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -11,8 +12,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import tfar.chickenvshunter.ChickenVsHunter;
 import tfar.chickenvshunter.Init;
 import tfar.chickenvshunter.ducks.ChickenDuck;
+import tfar.chickenvshunter.world.deferredevent.DespawnLater;
 
 public class ChickenArrowEntity extends AbstractArrow {
     private int duration = 200;
@@ -36,20 +39,25 @@ public class ChickenArrowEntity extends AbstractArrow {
 
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
-        super.onHit(hitResult);
+        super.onHitEntity(hitResult);
         if (!this.level().isClientSide) {
-            int count = 4;
-
-            for(int i = 0; i < count; ++i) {
-                Chicken chicken = EntityType.CHICKEN.create(this.level());
-                if (chicken != null) {
-                    chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                    this.level().addFreshEntity(chicken);
-                }
-            }
-
+            spawnAngryChickens();
             this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
+        }
+    }
+
+    protected void spawnAngryChickens() {
+        int count = 4;
+        for(int i = 0; i < count; ++i) {
+            Chicken chicken = EntityType.CHICKEN.create(this.level());
+            if (chicken != null) {
+                chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Rage Boost",.75, AttributeModifier.Operation.ADDITION));
+                ((ChickenDuck)chicken).reassessGoals();
+                ChickenVsHunter.addDeferredEvent((ServerLevel) level(),new DespawnLater(120,chicken));
+                this.level().addFreshEntity(chicken);
+            }
         }
     }
 
@@ -58,20 +66,7 @@ public class ChickenArrowEntity extends AbstractArrow {
     protected void onHitBlock(BlockHitResult hitResult) {
         super.onHitBlock(hitResult);
         if (!this.level().isClientSide) {
-            int count = 4;
-
-            for(int i = 0; i < count; ++i) {
-                Chicken chicken = EntityType.CHICKEN.create(this.level());
-                if (chicken != null) {
-                    chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                    chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Rage Boost",.75, AttributeModifier.Operation.ADDITION));
-
-                    ((ChickenDuck)chicken).reassessGoals();
-
-                    this.level().addFreshEntity(chicken);
-                }
-            }
-
+            spawnAngryChickens();
             this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
         }
