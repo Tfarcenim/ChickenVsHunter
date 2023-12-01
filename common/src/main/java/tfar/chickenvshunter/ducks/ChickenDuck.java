@@ -10,4 +10,10 @@ public interface ChickenDuck {
 
     void reassessGoals();
 
+    void setBlockBreaker();
+
+    int getBlocksLeft();
+
+    void setBlocksLeft(int blocksLeft);
+
 }

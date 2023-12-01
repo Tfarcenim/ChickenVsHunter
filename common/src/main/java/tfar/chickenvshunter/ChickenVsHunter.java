@@ -1,5 +1,6 @@
 package tfar.chickenvshunter;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -7,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -14,7 +16,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -27,6 +32,7 @@ import tfar.chickenvshunter.world.ChickVHunterSavedData;
 import tfar.chickenvshunter.world.deferredevent.DeferredEvent;
 import tfar.chickenvshunter.world.deferredevent.DeferredEventSystem;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
@@ -80,6 +86,7 @@ public class ChickenVsHunter {
 
     public static void chickenTick(Chicken chicken) {
         if (!chicken.level().isClientSide) {
+            ChickenDuck chickenDuck = (ChickenDuck) chicken;
             if (chicken.getVehicle() instanceof Player player) {
                 boolean chickenHelmet = player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
                 if (!chickenHelmet) {
@@ -90,7 +97,6 @@ public class ChickenVsHunter {
                     }
                 }
                 chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
-                ChickenDuck chickenDuck = (ChickenDuck) chicken;
                 int reinfecementTime  = chickenDuck.getReinforcementTime();
                 chickenDuck.setReinforcementTime(reinfecementTime - 1);
                 if (reinfecementTime <=0) {
@@ -100,6 +106,34 @@ public class ChickenVsHunter {
                     chickenDuck.setReinforcementTime(ChickVHunterSavedData.REINFORCEMENT_DELAY);
                     chicken1.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(ModCommands.SPEEDRUNNER_BUFF);
                     chicken1.setHealth(20);
+                }
+            }
+
+            if (chickenDuck.getBlocksLeft() > 0) {
+                for (int y = -1; y < 2;y++ ) {
+                    for (int z = -1; z < 2;z++ ) {
+                        for (int x = -1; x < 2;x++ ) {
+                            Level level = chicken.level();
+                            BlockPos pos = chicken.blockPosition().offset(x,y,z);
+                            BlockState blockState = chicken.level().getBlockState(pos);
+                            if (!blockState.isAir()) {
+                                chickenDuck.setBlocksLeft(chickenDuck.getBlocksLeft() - 1);
+
+                                LivingEntity owner = (LivingEntity) ((ServerLevel)level).getEntity(ChickVHunterSavedData.speedrunner);
+                                if (owner instanceof ServerPlayer) {
+                                    List<ItemStack> loot = Block.getDrops(blockState, (ServerLevel) level, pos, level.getBlockEntity(pos), owner,
+                                            owner.getItemInHand(InteractionHand.MAIN_HAND));
+                                    loot.forEach(stack -> ((ServerPlayer) owner).getInventory().add(stack));
+                                    level.removeBlock(pos,false);
+                                }
+                                if (chickenDuck.getBlocksLeft() <=0) {
+                                    chicken.setNoGravity(false);
+                                    chicken.setDiscardFriction(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -201,6 +235,13 @@ public class ChickenVsHunter {
         return false;
     }
 
+    //return true to cancel
+    public static boolean attackEvent(LivingEntity livingEntity, DamageSource source) {
+        if (livingEntity instanceof Chicken chicken ) {
+            return ((ChickenDuck) chicken).getBlocksLeft() > 0 && source.is(DamageTypes.IN_WALL);
+        }
+        return false;
+    }
 }
 
 //- i can hold chicken above my head to move chicken around with me

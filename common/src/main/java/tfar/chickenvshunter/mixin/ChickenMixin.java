@@ -48,6 +48,23 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
         return true;
     }
 
+    private int blocksLeft = 0;
+
+    @Override
+    public void setBlockBreaker() {
+        blocksLeft = 200;
+    }
+
+    @Override
+    public int getBlocksLeft() {
+        return blocksLeft;
+    }
+
+    @Override
+    public void setBlocksLeft(int blocksLeft) {
+        this.blocksLeft = blocksLeft;
+    }
+
     private boolean superHostile = true;
 
     private int reinforcementTime = ChickVHunterSavedData.REINFORCEMENT_DELAY;

@@ -10,7 +10,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import tfar.chickenvshunter.item.ChickenArrowEntity;
+import tfar.chickenvshunter.entity.BlockBreakerEntity;
+import tfar.chickenvshunter.entity.ChickenArrowEntity;
 import tfar.chickenvshunter.item.ChickenAxeItem;
 import tfar.chickenvshunter.item.ChickenBowItem;
 import tfar.chickenvshunter.item.ChickenPickaxeItem;
@@ -40,6 +41,8 @@ public class Init {
     public static EntityType<ChickenArrowEntity> CHICKEN_ARROW = EntityType.Builder.<ChickenArrowEntity>of(ChickenArrowEntity::new, MobCategory.MISC)
             .sized(.5f,.5f).clientTrackingRange(4).updateInterval(20).build("chicken_arrow");
 
+    public static EntityType<BlockBreakerEntity> BLOCK_BREAKER = EntityType.Builder.of(BlockBreakerEntity::new, MobCategory.MISC)
+            .sized(.5f,.5f).clientTrackingRange(4).updateInterval(20).build("block_breaker");
 
     public static BlockEntityType<GoldenEggBlockEntity> GOLDEN_EGG_E = BlockEntityType.Builder.of(GoldenEggBlockEntity::new,GOLDEN_EGG).build(null);
 

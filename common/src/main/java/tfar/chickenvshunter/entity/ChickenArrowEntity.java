@@ -1,4 +1,4 @@
-package tfar.chickenvshunter.item;
+package tfar.chickenvshunter.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;

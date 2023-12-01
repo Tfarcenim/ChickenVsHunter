@@ -2,7 +2,6 @@ package tfar.chickenvshunter;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -33,7 +32,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
-import tfar.chickenvshunter.client.BasicArrowRenderer;
 import tfar.chickenvshunter.entity.GhickenEntity;
 import tfar.chickenvshunter.entity.GhickenFireballEntity;
 import tfar.chickenvshunter.network.PacketHandler;
@@ -59,8 +57,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         UseBlockCallback.EVENT.register(this::useBlock);
 
         FabricDefaultAttributeRegistry.register(Init.GHICKEN,GhickenEntity.createAttributes());
-        EntityRendererRegistry.register((EntityType<? extends GhickenEntity>) Init.GHICKEN, GhickenEntityRenderer::new);
-        EntityRendererRegistry.register(Init.CHICKEN_ARROW, BasicArrowRenderer::new);
+
 
         PacketHandler.registerMessages();
     }
@@ -124,6 +121,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),Init.GHICKEN);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken_fireball"),Init.GHICKEN_FIREBALL);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"chicken_arrow"),Init.CHICKEN_ARROW);
+        Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"block_breaker"),Init.BLOCK_BREAKER);
     }
 
     public static void registerItem(String name, Item item) {

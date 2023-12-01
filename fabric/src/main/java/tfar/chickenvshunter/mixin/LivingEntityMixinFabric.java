@@ -47,14 +47,14 @@ abstract class LivingEntityMixinFabric extends Entity {
         if (hasEffect(MobEffects.INVISIBILITY)) {
             cir.setReturnValue(0d);
         }
-    }
+    }*/
 
     @Inject(method = "hurt",at = @At("HEAD"),cancellable = true)
     private void onAttacked(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (ArmorTrimsMod.attackEvent(selfCast(),source)) {
+        if (ChickenVsHunter.attackEvent(selfCast(),source)) {
             cir.setReturnValue(false);
         }
-    }*/
+    }
 
     @Inject(method = "heal",at = @At("HEAD"),cancellable = true)
     private void healEvent(float healAmount, CallbackInfo ci) {
