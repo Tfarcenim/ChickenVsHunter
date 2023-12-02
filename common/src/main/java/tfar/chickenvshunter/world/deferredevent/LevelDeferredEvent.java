@@ -3,12 +3,12 @@ package tfar.chickenvshunter.world.deferredevent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 
-public abstract class DeferredEvent {
+public abstract class LevelDeferredEvent {
 
     protected long timer;
     private final DeferredEventType<?> deferredEventType;
 
-    public DeferredEvent(DeferredEventType<?> deferredEventType) {
+    public LevelDeferredEvent(DeferredEventType<?> deferredEventType) {
         this.deferredEventType = deferredEventType;
     }
 

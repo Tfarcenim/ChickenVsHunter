@@ -1,22 +1,29 @@
 package tfar.chickenvshunter.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+import net.minecraft.world.entity.animal.horse.SkeletonHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -26,6 +33,8 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 
 public class GhickenEntity extends FlyingMob implements GeoEntity {
 
@@ -198,7 +207,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
             LivingEntity livingentity = this.ghicken.getTarget();
             if (livingentity != null) {
                 double d0 = 64.0D;
-                if (livingentity.distanceToSqr(this.ghicken) < d0*d0 && this.ghicken.hasLineOfSight(livingentity)) {
+                if (livingentity.distanceToSqr(this.ghicken) < d0 * d0 && this.ghicken.hasLineOfSight(livingentity)) {
                     Level level = this.ghicken.level();
                     ++this.chargeTime;
                     if (this.chargeTime == 10 && !this.ghicken.isSilent()) {
@@ -229,6 +238,43 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
             }
         }
     }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        if (!level().isClientSide && level().getGameTime() % 1200 == 0) {
+
+            ChunkPos $$2 = new ChunkPos(blockPosition());
+            int $$4 = $$2.getMinBlockX();
+            int $$5 = $$2.getMinBlockZ();
+
+            BlockPos $$7 = findLightningTargetAround(level().getBlockRandomPos($$4, 0, $$5, 15));
+
+            LightningBolt $$11 = EntityType.LIGHTNING_BOLT.create(level());
+            if ($$11 != null) {
+                $$11.moveTo(Vec3.atBottomCenterOf($$7));
+                level().addFreshEntity($$11);
+            }
+        }
+    }
+
+    protected BlockPos findLightningTargetAround(BlockPos pos) {
+        BlockPos blockPos = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
+      //  Optional<BlockPos> optional = ((ServerLevel)level()).findLightningRod(blockPos);
+      //  if (optional.isPresent()) {
+     //       return optional.get();
+     //   }
+        AABB aABB = new AABB(blockPos, new BlockPos(blockPos.getX(), level().getMaxBuildHeight(), blockPos.getZ())).inflate(3.0);
+        List<LivingEntity> list = level().getEntitiesOfClass(LivingEntity.class, aABB, livingEntity -> livingEntity != null && livingEntity.isAlive() && level().canSeeSky(livingEntity.blockPosition()));
+        if (!list.isEmpty()) {
+            return list.get(level().random.nextInt(list.size())).blockPosition();
+        }
+        if (blockPos.getY() == level().getMinBuildHeight() - 1) {
+            blockPos = blockPos.above(2);
+        }
+        return blockPos;
+    }
+
 
     static class RandomFloatAroundGoal extends Goal {
         private final GhickenEntity ghicken;

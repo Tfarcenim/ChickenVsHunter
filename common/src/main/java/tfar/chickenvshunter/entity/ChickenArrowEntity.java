@@ -55,7 +55,7 @@ public class ChickenArrowEntity extends AbstractArrow {
                 chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
                 chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Rage Boost",.75, AttributeModifier.Operation.ADDITION));
                 ((ChickenDuck)chicken).reassessGoals();
-                ChickenVsHunter.addDeferredEvent((ServerLevel) level(),new DespawnLater(120,chicken));
+                ChickenVsHunter.addDeferredEvent((ServerLevel) level(),new DespawnLater(120,chicken,.05));
                 this.level().addFreshEntity(chicken);
             }
         }

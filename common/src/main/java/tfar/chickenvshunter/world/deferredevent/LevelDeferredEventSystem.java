@@ -11,23 +11,23 @@ import tfar.chickenvshunter.ChickenVsHunter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeferredEventSystem extends SavedData {
+public class LevelDeferredEventSystem extends SavedData {
 
-    public List<DeferredEvent> futureEvents = new ArrayList<>();
+    public List<LevelDeferredEvent> futureEvents = new ArrayList<>();
 
-    public List<DeferredEvent> oldEvents = new ArrayList<>();
+    public List<LevelDeferredEvent> oldEvents = new ArrayList<>();
 
-    public void addDeferredEvent(DeferredEvent deferredEvent) {
-        futureEvents.add(deferredEvent);
+    public void addDeferredEvent(LevelDeferredEvent levelDeferredEvent) {
+        futureEvents.add(levelDeferredEvent);
     }
 
     public void tickDeferredEvents(ServerLevel level) {
-        for (DeferredEvent deferredEvent : futureEvents) {
-            deferredEvent.tick();
-            if (deferredEvent.isReady()) {
-                boolean finished = deferredEvent.attemptRun(level);
+        for (LevelDeferredEvent levelDeferredEvent : futureEvents) {
+            levelDeferredEvent.tick();
+            if (levelDeferredEvent.isReady()) {
+                boolean finished = levelDeferredEvent.attemptRun(level);
                 if (finished) {
-                    oldEvents.add(deferredEvent);
+                    oldEvents.add(levelDeferredEvent);
                 }
             }
         }
@@ -41,8 +41,8 @@ public class DeferredEventSystem extends SavedData {
     @Override
     public CompoundTag save(CompoundTag tag) {
         ListTag listTag = new ListTag();
-        for (DeferredEvent deferredEvent : futureEvents) {
-            listTag.add(deferredEvent.write());
+        for (LevelDeferredEvent levelDeferredEvent : futureEvents) {
+            listTag.add(levelDeferredEvent.write());
         }
         tag.put("deferredevents",listTag);
         return tag;
@@ -58,13 +58,13 @@ public class DeferredEventSystem extends SavedData {
                 ChickenVsHunter.LOG.warn("Unregistered deferred event: "+id);
                 continue;
             }
-            DeferredEvent deferredEvent = deferredEventType.createFromTag(compoundTag);
-            futureEvents.add(deferredEvent);
+            LevelDeferredEvent levelDeferredEvent = deferredEventType.createFromTag(compoundTag);
+            futureEvents.add(levelDeferredEvent);
         }
     }
 
-    public static DeferredEventSystem loadStatic(CompoundTag compoundTag) {
-        DeferredEventSystem id = new DeferredEventSystem();
+    public static LevelDeferredEventSystem loadStatic(CompoundTag compoundTag) {
+        LevelDeferredEventSystem id = new LevelDeferredEventSystem();
         id.load(compoundTag);
         return id;
     }

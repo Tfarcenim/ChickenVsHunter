@@ -16,7 +16,7 @@ public class DeferredEventTypes {
     public static final DeferredEventType<DespawnLater> DESPAWN_LATER =
             register(DespawnLater::new, new ResourceLocation(ChickenVsHunter.MOD_ID,"despawn_later"));
 
-    public static <T extends DeferredEvent> DeferredEventType<T> register(Supplier<T> function, ResourceLocation resourceLocation) {
+    public static <T extends LevelDeferredEvent> DeferredEventType<T> register(Supplier<T> function, ResourceLocation resourceLocation) {
         DeferredEventType<T> deferredEventType = new DeferredEventType<>(function,resourceLocation);
         REGISTRY.put(resourceLocation,deferredEventType);
         return deferredEventType;

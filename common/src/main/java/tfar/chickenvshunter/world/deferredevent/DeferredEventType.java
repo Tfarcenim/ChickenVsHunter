@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 
-public class DeferredEventType<T extends DeferredEvent> {
+public class DeferredEventType<T extends LevelDeferredEvent> {
 
     private final Supplier<T> supplier;
     private final ResourceLocation id;

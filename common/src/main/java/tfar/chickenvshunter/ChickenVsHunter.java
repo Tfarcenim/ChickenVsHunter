@@ -15,22 +15,18 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;
-import tfar.chickenvshunter.world.deferredevent.DeferredEvent;
-import tfar.chickenvshunter.world.deferredevent.DeferredEventSystem;
+import tfar.chickenvshunter.world.deferredevent.LevelDeferredEvent;
+import tfar.chickenvshunter.world.deferredevent.LevelDeferredEventSystem;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -58,12 +54,12 @@ public class ChickenVsHunter {
 
     }
 
-    public static DeferredEventSystem getDeferredEventSystem(ServerLevel serverLevel) {
+    public static LevelDeferredEventSystem getDeferredEventSystem(ServerLevel serverLevel) {
         return serverLevel.getDataStorage()
-                .computeIfAbsent(DeferredEventSystem::loadStatic,DeferredEventSystem::new, "deferredevents");
+                .computeIfAbsent(LevelDeferredEventSystem::loadStatic, LevelDeferredEventSystem::new, "deferredevents");
     }
 
-    public static void addDeferredEvent(ServerLevel level,DeferredEvent event) {
+    public static void addDeferredEvent(ServerLevel level, LevelDeferredEvent event) {
         getDeferredEventSystem(level).addDeferredEvent(event);
     }
 
@@ -84,9 +80,15 @@ public class ChickenVsHunter {
         return InteractionResult.PASS;
     }
 
+
+
     public static void chickenTick(Chicken chicken) {
         if (!chicken.level().isClientSide) {
             ChickenDuck chickenDuck = (ChickenDuck) chicken;
+            if (chicken.getUUID().equals(ChickVHunterSavedData.chicken)) {
+                chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
+            }
+
             if (chicken.getVehicle() instanceof Player player) {
                 boolean chickenHelmet = player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
                 if (!chickenHelmet) {
@@ -96,7 +98,6 @@ public class ChickenVsHunter {
                         chicken.heal(.05f);//this runs 20 times a second
                     }
                 }
-                chicken.setCustomName(Component.literal("Health: " + (int)chicken.getHealth() +"/" + (int)chicken.getMaxHealth()));
                 int reinfecementTime  = chickenDuck.getReinforcementTime();
                 chickenDuck.setReinforcementTime(reinfecementTime - 1);
                 if (reinfecementTime <=0) {
@@ -142,6 +143,10 @@ public class ChickenVsHunter {
         }
     }
 
+    public static boolean rageMode(Chicken chicken) {
+        return chicken.getUUID().equals(ChickVHunterSavedData.chicken) && chicken.getHealth() < 2;
+    }
+
     public static void worldTick(Level level) {
         if (!level.isClientSide) {
             ServerLevel serverLevel = (ServerLevel) level;
@@ -151,13 +156,6 @@ public class ChickenVsHunter {
 
     public static boolean holdingChicken(Player player) {
         return player.getFirstPassenger() instanceof Chicken && !player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET);
-    }
-
-    public static void pickupChicken(ServerPlayer player, int id) {
-        Entity entity = player.serverLevel().getEntity(id);
-        if (entity instanceof Chicken chicken) {
-            chicken.startRiding(player,true);
-        }
     }
 
     public static void dropChicken(ServerPlayer player,int id) {
@@ -212,6 +210,12 @@ public class ChickenVsHunter {
                 }
             }
         }
+
+        if (damageSource.getEntity() instanceof  Chicken chicken && rageMode(chicken)) {
+            livingEntity.setSecondsOnFire(2);
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
+        }
+
         return false;
     }
 
@@ -267,20 +271,20 @@ public class ChickenVsHunter {
 //
 // todo - feed the chicken OP seeds:
 //
-// todo - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
+//  - OP seeds would be seeds surrounding a type of ore (gold, iron, diamond, netherite)
 //
 //		- gold seed: gives chicken axe (durability like diamond, damage as iron)
 //			- turns the hunters into chicken sized versions of them selves temporarily
 //			- reducing their reach and speed in scale to their size
 //
 //		- iron seed: gives chicken pick (durability like diamond, mining speed of iron)
-//	todo		- sends a swarm of chicken to mine out in what ever direction i right click for 10 blocks
+//		- sends a swarm of chicken to mine out in what ever direction i right click for 10 blocks
 //			- sends me all ores and materials mined
 //
 //		- diamond seed: gives chicken bow (bow with unbreaking 3 durability)
-//	todo - launches chicken eggs that when landed 3 chickens appear that murder everything in site then dissapear after 5 seconds
+//	 - launches chicken eggs that when landed 3 chickens appear that murder everything in site then dissapear after 5 seconds
 //
-//todo		- very small chance any one of the chickens explodes when it disapears
+//	- very small chance any one of the chickens explodes when it disapears
 //
 //		- netherite seed: gives full set of chicken armour (netherite tiered armour thats chicken themed)
 //			- boots give:

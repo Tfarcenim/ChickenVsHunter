@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import tfar.chickenvshunter.ChickenVsHunter;
 import tfar.chickenvshunter.RemoveSpecificBlockGoal;
 import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.CustomFollowOwnerGoal;
@@ -78,6 +80,20 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
     @Inject(method = "registerGoals",at = @At("RETURN"))
     private void addCustomGoals(CallbackInfo ci) {
         this.goalSelector.addGoal(6,new CustomFollowOwnerGoal(this, 1, 10, 2, false));
+    }
+
+    private static final UUID rage_boost = UUID.fromString("04909418-c96c-48b3-a3ba-e9bcb4bbeafc");
+
+    @Override
+    public void setHealth(float health) {
+        super.setHealth(health);
+        if (ChickenVsHunter.rageMode((Chicken) (Object)this)) {
+            if (getAttribute(Attributes.MOVEMENT_SPEED).getModifier(rage_boost) == null) {
+                this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(new AttributeModifier(rage_boost, "Rage Boost", .5, AttributeModifier.Operation.ADDITION));
+            } else {
+                this.getAttribute(Attributes.MOVEMENT_SPEED).removeModifier(rage_boost);
+            }
+        }
     }
 
     @Inject(method = "createAttributes",at = @At("RETURN"))

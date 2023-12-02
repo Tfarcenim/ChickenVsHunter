@@ -8,7 +8,7 @@ import tfar.chickenvshunter.platform.Services;
 
 import java.util.UUID;
 
-public class ScaleLater extends DeferredEvent {
+public class ScaleLater extends LevelDeferredEvent {
 
     private UUID uuid;
     private float scale;
