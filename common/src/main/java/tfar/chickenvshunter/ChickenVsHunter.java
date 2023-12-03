@@ -214,6 +214,7 @@ public class ChickenVsHunter {
         if (damageSource.getEntity() instanceof  Chicken chicken && rageMode(chicken)) {
             livingEntity.setSecondsOnFire(2);
             livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
+            livingEntity.addEffect(new MobEffectInstance(Init.CHICKEN_CURSE,-1,0));
         }
 
         return false;

@@ -9,6 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.animal.horse.SkeletonHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.LargeFireball;
@@ -31,6 +33,9 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import tfar.chickenvshunter.ChickenVsHunter;
+import tfar.chickenvshunter.ducks.ChickenDuck;
+import tfar.chickenvshunter.world.deferredevent.DespawnLater;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -225,7 +230,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
                             level.levelEvent(null, 1016, this.ghicken.blockPosition(), 0);
                         }
 
-                        LargeFireball largefireball = new LargeFireball(level, this.ghicken, d2, d3, d4, this.ghicken.getExplosionPower());
+                        GhickenFireballEntity largefireball = new GhickenFireballEntity(level, this.ghicken, d2, d3, d4, this.ghicken.getExplosionPower());
                         largefireball.setPos(this.ghicken.getX() + vec3.x * d1, this.ghicken.getY(0.5D) + 0.5D, largefireball.getZ() + vec3.z * d1);
                         level.addFreshEntity(largefireball);
                         this.chargeTime = -40;
@@ -250,10 +255,21 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
 
             BlockPos $$7 = findLightningTargetAround(level().getBlockRandomPos($$4, 0, $$5, 15));
 
-            LightningBolt $$11 = EntityType.LIGHTNING_BOLT.create(level());
-            if ($$11 != null) {
-                $$11.moveTo(Vec3.atBottomCenterOf($$7));
-                level().addFreshEntity($$11);
+            LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(level());
+            if (lightningBolt != null) {
+                lightningBolt.moveTo(Vec3.atBottomCenterOf($$7));
+                level().addFreshEntity(lightningBolt);
+
+                Chicken chicken = EntityType.CHICKEN.create(this.level());
+                if (chicken != null) {
+                    chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                    chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Rage Boost",.75, AttributeModifier.Operation.ADDITION));
+                    ((ChickenDuck)chicken).reassessGoals();
+                   // ChickenVsHunter.addDeferredEvent((ServerLevel) level(),new DespawnLater(120,chicken,.05));
+                    this.level().addFreshEntity(chicken);
+                }
+
+
             }
         }
     }

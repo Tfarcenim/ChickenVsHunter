@@ -24,5 +24,9 @@ public class ModLangProvider extends LanguageProvider {
         add(Init.DIAMOND_SEEDS,"Diamond Seeds");
         add(Init.NETHERITE_SEEDS,"Netherite Seeds");
 
+        add(Init.GHICKEN,"Ghicken");
+        add(Init.GHICKEN_FIREBALL,"Ghicken Fireball");
+        add(Init.CHICKEN_CURSE,"Chicken Curse");
+
     }
 }

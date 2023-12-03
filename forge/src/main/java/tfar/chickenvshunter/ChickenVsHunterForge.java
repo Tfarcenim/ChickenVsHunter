@@ -17,6 +17,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.RegisterEvent;
 import tfar.chickenvshunter.client.Client;
 import tfar.chickenvshunter.datagen.ModDatagen;
+import tfar.chickenvshunter.entity.GhickenFireballEntity;
 
 import java.util.function.Supplier;
 
@@ -67,6 +68,10 @@ public class ChickenVsHunterForge {
         event.register(Registries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),() -> Init.creativeModeTab);
         event.register(Registries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),() -> Init.GOLDEN_EGG_E);
         event.register(Registries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),() -> Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).build("ghicken"));
+        event.register(Registries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken_fireball"),() -> Init.GHICKEN_FIREBALL);
+
+        event.register(Registries.MOB_EFFECT,new ResourceLocation(ChickenVsHunter.MOD_ID,"chicken_curse"),() -> Init.CHICKEN_CURSE);
+
     }
 
     private void attribute(EntityAttributeCreationEvent event) {
