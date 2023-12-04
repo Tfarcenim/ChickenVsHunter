@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tfar.chickenvshunter.ChickenVsHunter;
-import tfar.chickenvshunter.RemoveSpecificBlockGoal;
 import tfar.chickenvshunter.ducks.ChickenDuck;
 import tfar.chickenvshunter.CustomFollowOwnerGoal;
 import tfar.chickenvshunter.world.ChickVHunterSavedData;

@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -73,11 +74,17 @@ public class ChickenVsHunter {
             if  (chicken == target) {
                 return InteractionResult.FAIL;
             }
-            if (!player.getItemBySlot(EquipmentSlot.FEET).is(Init.CHICKEN_HELMET)) {
+            if (!player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET)) {
                 return InteractionResult.FAIL;
             }
         }
         return InteractionResult.PASS;
+    }
+
+    public static void playerClone(ServerPlayer newPlayer, ServerPlayer oldPlayer, boolean keepEverything) {
+        if (oldPlayer.hasEffect(Init.CHICKEN_CURSE)) {
+            newPlayer.addEffect(new MobEffectInstance(Init.CHICKEN_CURSE,-1,0));
+        }
     }
 
 

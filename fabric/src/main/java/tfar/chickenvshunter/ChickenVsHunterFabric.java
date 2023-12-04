@@ -20,6 +20,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
@@ -65,7 +66,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
 
     private InteractionResult useBlock(Player player, Level level, InteractionHand hand, BlockHitResult blockHitResult) {
         Entity passenger = player.getFirstPassenger();
-        if (passenger instanceof Chicken) {
+        if (passenger instanceof Chicken && !player.getItemBySlot(EquipmentSlot.HEAD).is(Init.CHICKEN_HELMET)) {
             return InteractionResult.FAIL;
         }
         return InteractionResult.PASS;

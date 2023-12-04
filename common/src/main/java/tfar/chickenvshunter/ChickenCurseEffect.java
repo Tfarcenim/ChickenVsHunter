@@ -1,6 +1,7 @@
 package tfar.chickenvshunter;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,8 +13,9 @@ public class ChickenCurseEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity living, int amplifier) {
-        if (living.getRandom().nextInt(100) == 0 && living instanceof ServerPlayer serverPlayer) {
+        if (living.getRandom().nextInt(1000) == 0 && living instanceof ServerPlayer serverPlayer) {
             serverPlayer.drop(true);
+            serverPlayer.playSound(SoundEvents.CHICKEN_AMBIENT);
         }
     }
 
