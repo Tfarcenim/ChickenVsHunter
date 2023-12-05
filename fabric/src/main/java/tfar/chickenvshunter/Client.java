@@ -33,6 +33,7 @@ public class Client implements ClientModInitializer {
 
         EntityRendererRegistry.register(Init.CHICKEN_ARROW, BasicArrowRenderer::new);
         EntityRendererRegistry.register(Init.BLOCK_BREAKER, BlockBreakerRenderer::new);
+        EntityRendererRegistry.register(Init.ENDER_EGG_E, ThrownItemRenderer::new);
     }
 
     private void keyPressed(Minecraft minecraft) {

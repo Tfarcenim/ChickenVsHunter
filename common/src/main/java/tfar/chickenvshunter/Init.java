@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.world.entity.projectile.ThrownEnderpearl;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import tfar.chickenvshunter.entity.BlockBreakerEntity;
 import tfar.chickenvshunter.entity.ChickenArrowEntity;
+import tfar.chickenvshunter.entity.EnderEggEntity;
 import tfar.chickenvshunter.entity.GhickenFireballEntity;
 import tfar.chickenvshunter.item.ChickenAxeItem;
 import tfar.chickenvshunter.item.ChickenBowItem;
@@ -50,7 +52,12 @@ public class Init {
     public static EntityType<BlockBreakerEntity> BLOCK_BREAKER = EntityType.Builder.of(BlockBreakerEntity::new, MobCategory.MISC)
             .sized(.5f,.5f).clientTrackingRange(4).updateInterval(20).build("block_breaker");
 
+    public static final EntityType<EnderEggEntity> ENDER_EGG_E = EntityType.Builder.<EnderEggEntity>of(EnderEggEntity::new, MobCategory.MISC).sized(0.25f, 0.25f)
+            .clientTrackingRange(4).updateInterval(10).build("ender_egg");
+
     public static BlockEntityType<GoldenEggBlockEntity> GOLDEN_EGG_E = BlockEntityType.Builder.of(GoldenEggBlockEntity::new,GOLDEN_EGG).build(null);
+
+
 
     public static MobEffect CHICKEN_CURSE = new ChickenCurseEffect(MobEffectCategory.HARMFUL,0);
 

@@ -277,6 +277,11 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
         }
     }
 
+    @Override
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return false;
+    }
+
     protected BlockPos findLightningTargetAround(BlockPos pos) {
         BlockPos blockPos = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
       //  Optional<BlockPos> optional = ((ServerLevel)level()).findLightningRod(blockPos);

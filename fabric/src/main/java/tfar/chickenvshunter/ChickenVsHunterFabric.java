@@ -120,10 +120,13 @@ public class ChickenVsHunterFabric implements ModInitializer {
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);
+
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),Init.GHICKEN);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken_fireball"),Init.GHICKEN_FIREBALL);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"chicken_arrow"),Init.CHICKEN_ARROW);
         Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"block_breaker"),Init.BLOCK_BREAKER);
+        Registry.register(BuiltInRegistries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ender_egg"),Init.ENDER_EGG_E);
+
         Registry.register(BuiltInRegistries.MOB_EFFECT,new ResourceLocation(ChickenVsHunter.MOD_ID,"chicken_curse"),Init.CHICKEN_CURSE);
 
     }
