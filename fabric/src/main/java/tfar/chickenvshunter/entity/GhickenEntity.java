@@ -55,7 +55,6 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
     private boolean reset;//client
 
 
-
     public GhickenEntity(EntityType<? extends FlyingMob> entityType, Level level) {
         super(entityType, level);
 
@@ -81,8 +80,8 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(ANIMATION,0);
-        entityData.define(SHOULD_ANIMATION_CONTINUE,false);
+        entityData.define(ANIMATION, 0);
+        entityData.define(SHOULD_ANIMATION_CONTINUE, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -110,7 +109,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
     }
 
     public void setAnimation(GeckoAnimation animation) {
-        entityData.set(ANIMATION,animation.ordinal());
+        entityData.set(ANIMATION, animation.ordinal());
     }
 
     private boolean shouldAnimationContinue() {
@@ -118,7 +117,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
     }
 
     private void setShouldAnimationContinue(boolean shouldAnimationContinue) {
-        entityData.set(SHOULD_ANIMATION_CONTINUE,shouldAnimationContinue);
+        entityData.set(SHOULD_ANIMATION_CONTINUE, shouldAnimationContinue);
     }
 
     public boolean isAnimationDone() {
@@ -150,14 +149,13 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
                         this.operation = MoveControl.Operation.WAIT;
                     }
                 }
-
             }
         }
 
         private boolean canReach(Vec3 pPos, int pLength) {
             AABB aabb = this.ghast.getBoundingBox();
 
-            for(int i = 1; i < pLength; ++i) {
+            for (int i = 1; i < pLength; ++i) {
                 aabb = aabb.move(pPos);
                 if (!this.ghast.level().noCollision(this.ghast, aabb)) {
                     return false;
@@ -250,8 +248,18 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
     @Override
     public void aiStep() {
         super.aiStep();
-        if (!level().isClientSide && level().getGameTime() % 1200 == 0) {
+        if (!level().isClientSide && level().getGameTime() % 120 == 0) {
+            Chicken chicken = EntityType.CHICKEN.create(this.level());
+            if (chicken != null) {
+                chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Rage Boost", .75, AttributeModifier.Operation.ADDITION));
+                ((ChickenDuck) chicken).reassessGoals();
+                // ChickenVsHunter.addDeferredEvent((ServerLevel) level(),new DespawnLater(120,chicken,.05));
+                this.level().addFreshEntity(chicken);
+            }
+        }
 
+        if (!level().isClientSide && level().getGameTime() % 1200 == 0) {
             ChunkPos $$2 = new ChunkPos(blockPosition());
             int $$4 = $$2.getMinBlockX();
             int $$5 = $$2.getMinBlockZ();
@@ -262,17 +270,6 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
             if (lightningBolt != null) {
                 lightningBolt.moveTo(Vec3.atBottomCenterOf($$7));
                 level().addFreshEntity(lightningBolt);
-
-                Chicken chicken = EntityType.CHICKEN.create(this.level());
-                if (chicken != null) {
-                    chicken.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                    chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Rage Boost",.75, AttributeModifier.Operation.ADDITION));
-                    ((ChickenDuck)chicken).reassessGoals();
-                   // ChickenVsHunter.addDeferredEvent((ServerLevel) level(),new DespawnLater(120,chicken,.05));
-                    this.level().addFreshEntity(chicken);
-                }
-
-
             }
         }
     }
@@ -284,10 +281,10 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
 
     protected BlockPos findLightningTargetAround(BlockPos pos) {
         BlockPos blockPos = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
-      //  Optional<BlockPos> optional = ((ServerLevel)level()).findLightningRod(blockPos);
-      //  if (optional.isPresent()) {
-     //       return optional.get();
-     //   }
+        //  Optional<BlockPos> optional = ((ServerLevel)level()).findLightningRod(blockPos);
+        //  if (optional.isPresent()) {
+        //       return optional.get();
+        //   }
         AABB aABB = new AABB(blockPos, new BlockPos(blockPos.getX(), level().getMaxBuildHeight(), blockPos.getZ())).inflate(3.0);
         List<LivingEntity> list = level().getEntitiesOfClass(LivingEntity.class, aABB, livingEntity -> livingEntity != null && livingEntity.isAlive() && level().canSeeSky(livingEntity.blockPosition()));
         if (!list.isEmpty()) {
@@ -337,9 +334,9 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
          */
         public void start() {
             RandomSource randomsource = this.ghicken.getRandom();
-            double x = Mth.clamp(this.ghicken.getX() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F,-64,64);
-            double y = Math.min(this.ghicken.getY() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F,108);
-            double z = Mth.clamp(this.ghicken.getZ() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F,-64,64);
+            double x = Mth.clamp(this.ghicken.getX() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F, -64, 64);
+            double y = Math.min(this.ghicken.getY() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F, 108);
+            double z = Mth.clamp(this.ghicken.getZ() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F, -64, 64);
             this.ghicken.getMoveControl().setWantedPosition(x, y, z, 1.0D);
         }
     }
@@ -370,7 +367,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
         public void tick() {
             if (this.ghast.getTarget() == null) {
                 Vec3 vec3 = this.ghast.getDeltaMovement();
-                this.ghast.setYRot(-((float)Mth.atan2(vec3.x, vec3.z)) * (180F / (float)Math.PI));
+                this.ghast.setYRot(-((float) Mth.atan2(vec3.x, vec3.z)) * (180F / (float) Math.PI));
                 this.ghast.yBodyRot = this.ghast.getYRot();
             } else {
                 LivingEntity livingentity = this.ghast.getTarget();
@@ -378,7 +375,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
                 if (livingentity.distanceToSqr(this.ghast) < 4096.0D) {
                     double d1 = livingentity.getX() - this.ghast.getX();
                     double d2 = livingentity.getZ() - this.ghast.getZ();
-                    this.ghast.setYRot(-((float)Mth.atan2(d1, d2)) * (180F / (float)Math.PI));
+                    this.ghast.setYRot(-((float) Mth.atan2(d1, d2)) * (180F / (float) Math.PI));
                     this.ghast.yBodyRot = this.ghast.getYRot();
                 }
             }
