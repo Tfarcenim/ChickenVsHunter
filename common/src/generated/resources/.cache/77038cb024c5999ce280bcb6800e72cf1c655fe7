@@ -1,4 +1,4 @@
-// 1.20.1	2023-11-18T06:33:16.7230205	Model Definitions
+// 1.20.1	2023-12-05T01:51:17.0320247	Model Definitions
 c5e4a6346728c68141550b291232481d6658044a assets/chickenvshunter/blockstates/golden_egg.json
 f1dfdae3e7e7b9e089a5dee6d3c5ff76dc29bb5b assets/chickenvshunter/models/block/golden_egg.json
 d49280870e1ced3b22a1e5c9bbb64decfb8c49e2 assets/chickenvshunter/models/item/chicken_boots.json
@@ -77,6 +77,7 @@ d410ffd32c4b17042f8d20d1ea761ed4ce7e506c assets/chickenvshunter/models/item/chic
 968836d4158d161fc89854726a3a02ff2ccc857b assets/chickenvshunter/models/item/chicken_leggings_quartz_trim.json
 3b55c8d90a35225269d3015999cdc03b069da030 assets/chickenvshunter/models/item/chicken_leggings_redstone_trim.json
 42f8d754dbc5cd7d744e173f98eb6d79a84ac693 assets/chickenvshunter/models/item/diamond_seeds.json
+2d5460277b2c12a2b2902b3e5c8782570bb00fee assets/chickenvshunter/models/item/ender_egg.json
 a36e5dbc4f0b56071341f1fefca44b3b63fdb63a assets/chickenvshunter/models/item/golden_egg.json
 c5105d0719268172bd8342884e1349b73eed2ee1 assets/chickenvshunter/models/item/gold_seeds.json
 ae659d74dd7d66cd3a01afa654066d3178823c38 assets/chickenvshunter/models/item/iron_seeds.json

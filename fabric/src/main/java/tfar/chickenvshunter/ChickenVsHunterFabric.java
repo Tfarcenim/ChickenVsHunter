@@ -116,6 +116,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         registerItem("diamond_seeds",Init.DIAMOND_SEEDS);
         registerItem("netherite_seeds",Init.NETHERITE_SEEDS);
         registerItem("chicken_compass",Init.CHICKEN_COMPASS);
+        registerItem("ender_egg",Init.ENDER_EGG);
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);

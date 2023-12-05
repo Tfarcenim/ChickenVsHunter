@@ -33,6 +33,7 @@ public class ModItemModelProvider extends ItemModelGenerators {
         generateFlatItem(Init.GOLD_SEEDS, ModelTemplates.FLAT_ITEM);
         generateFlatItem(Init.DIAMOND_SEEDS, ModelTemplates.FLAT_ITEM);
         generateFlatItem(Init.NETHERITE_SEEDS, ModelTemplates.FLAT_ITEM);
+        generateFlatItem(Init.ENDER_EGG,ModelTemplates.FLAT_ITEM);
         this.generateCompassItem(Init.CHICKEN_COMPASS);
 
 

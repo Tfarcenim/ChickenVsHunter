@@ -17,7 +17,7 @@ public class ChickVHunterSavedData extends SavedData {
 
     public static UUID speedrunner;
     public static UUID chicken;
-    public static int REINFORCEMENT_DELAY = 20 * 60 * 2;
+    public static int REINFORCEMENT_DELAY = 20 * 40;
     public static List<BlockPos> toBreak = new ArrayList<>();
 
     public static void createBreakablePos(ServerPlayer player) {

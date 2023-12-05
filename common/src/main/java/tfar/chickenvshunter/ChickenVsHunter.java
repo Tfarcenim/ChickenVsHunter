@@ -13,6 +13,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +32,8 @@ import tfar.chickenvshunter.world.deferredevent.LevelDeferredEventSystem;
 
 import java.util.List;
 import java.util.function.Predicate;
+
+import static tfar.chickenvshunter.world.ChickVHunterSavedData.chicken;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -108,12 +111,8 @@ public class ChickenVsHunter {
                 int reinfecementTime  = chickenDuck.getReinforcementTime();
                 chickenDuck.setReinforcementTime(reinfecementTime - 1);
                 if (reinfecementTime <=0) {
-                    ServerLevel serverLevel = (ServerLevel) chicken.level();
-                    Chicken chicken1 = EntityType.CHICKEN.spawn(serverLevel,player.blockPosition(), MobSpawnType.COMMAND);
-                    ((ChickenDuck)chicken1).setOwnerUUID(player.getUUID());
+                    summonChicken((ServerPlayer) player);
                     chickenDuck.setReinforcementTime(ChickVHunterSavedData.REINFORCEMENT_DELAY);
-                    chicken1.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(ModCommands.SPEEDRUNNER_BUFF);
-                    chicken1.setHealth(20);
                 }
             }
 
@@ -148,6 +147,15 @@ public class ChickenVsHunter {
         if (chicken.getUUID().equals(ChickVHunterSavedData.chicken)) {
             Init.CHICKEN_COMPASS.pos = GlobalPos.of(chicken.level().dimension(),chicken.blockPosition());
         }
+    }
+
+    public static void summonChicken(ServerPlayer player) {
+        ServerLevel serverLevel = player.serverLevel();
+        Chicken chicken = EntityType.CHICKEN.spawn(serverLevel,player.blockPosition(), MobSpawnType.COMMAND);
+        ((ChickenDuck)chicken).setOwnerUUID(player.getUUID());
+        chicken.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(ModCommands.SPEEDRUNNER_BUFF);
+        chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Agressive",.25, AttributeModifier.Operation.ADDITION));
+        chicken.setHealth(20);
     }
 
     public static boolean rageMode(Chicken chicken) {
@@ -215,6 +223,7 @@ public class ChickenVsHunter {
                         return true;
                     }
                 }
+                summonChicken((ServerPlayer) player);
             }
         }
 

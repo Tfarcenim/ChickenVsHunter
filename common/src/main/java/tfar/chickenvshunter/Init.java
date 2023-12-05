@@ -19,6 +19,7 @@ import tfar.chickenvshunter.entity.GhickenFireballEntity;
 import tfar.chickenvshunter.item.ChickenAxeItem;
 import tfar.chickenvshunter.item.ChickenBowItem;
 import tfar.chickenvshunter.item.ChickenPickaxeItem;
+import tfar.chickenvshunter.item.EnderEggItem;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class Init {
     public static Item DIAMOND_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.DIAMOND);
     public static Item NETHERITE_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.NETHERITE);
     public static ChickenCompassItem CHICKEN_COMPASS = new ChickenCompassItem(new Item.Properties());
+    public static Item ENDER_EGG = new EnderEggItem(new Item.Properties());
     public static EntityType<? extends Mob> GHICKEN;
     public static EntityType<? extends Fireball> GHICKEN_FIREBALL = EntityType.Builder.<GhickenFireballEntity>of(GhickenFireballEntity::new, MobCategory.MISC).build("ghicken_fireball");
     public static EntityType<ChickenArrowEntity> CHICKEN_ARROW = EntityType.Builder.<ChickenArrowEntity>of(ChickenArrowEntity::new, MobCategory.MISC)

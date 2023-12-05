@@ -5,6 +5,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -33,8 +34,10 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import software.bernie.shadowed.eliotlash.mclib.utils.MathHelper;
 import tfar.chickenvshunter.ChickenVsHunter;
 import tfar.chickenvshunter.ducks.ChickenDuck;
+import tfar.chickenvshunter.world.ChickVHunterSavedData;
 import tfar.chickenvshunter.world.deferredevent.DespawnLater;
 
 import java.util.EnumSet;
@@ -66,7 +69,7 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
         this.goalSelector.addGoal(5, new RandomFloatAroundGoal(this));
         this.goalSelector.addGoal(7, new GhastLookGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (living) ->
-                Math.abs(living.getY() - this.getY()) <= 4.0D));
+                Math.abs(living.getY() - this.getY()) <= 4.0D && ChickVHunterSavedData.isHunter((Player) living)));
     }
 
     @Override
@@ -329,10 +332,10 @@ public class GhickenEntity extends FlyingMob implements GeoEntity {
          */
         public void start() {
             RandomSource randomsource = this.ghicken.getRandom();
-            double d0 = this.ghicken.getX() + (double)((randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F);
-            double d1 = this.ghicken.getY() + (double)((randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F);
-            double d2 = this.ghicken.getZ() + (double)((randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F);
-            this.ghicken.getMoveControl().setWantedPosition(d0, d1, d2, 1.0D);
+            double x = Mth.clamp(this.ghicken.getX() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F,-64,64);
+            double y = Math.min(this.ghicken.getY() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F,108);
+            double z = Mth.clamp(this.ghicken.getZ() + (randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F,-64,64);
+            this.ghicken.getMoveControl().setWantedPosition(x, y, z, 1.0D);
         }
     }
 
