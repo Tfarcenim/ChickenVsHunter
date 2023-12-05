@@ -35,6 +35,8 @@ public class Init {
     public static ArmorItem CHICKEN_BOOTS;
     public static Block GOLDEN_EGG = new GoldenEggBlock(BlockBehaviour.Properties.copy(Blocks.DRAGON_EGG));
     public static BlockItem GOLDEN_EGG_I = new BlockItem(GOLDEN_EGG,new Item.Properties());
+
+
     public static Item CHICKEN_AXE = new ChickenAxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
     public static Item CHICKEN_BOW = new ChickenBowItem(new Item.Properties().durability(384 * 4));
     public static Item CHICKEN_PICKAXE = new ChickenPickaxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
@@ -45,6 +47,9 @@ public class Init {
     public static ChickenCompassItem CHICKEN_COMPASS = new ChickenCompassItem(new Item.Properties());
     public static Item ENDER_EGG = new EnderEggItem(new Item.Properties());
     public static EntityType<? extends Mob> GHICKEN;
+
+    public static Item GHICKEN_SPAWN_EGG;
+
     public static EntityType<? extends Fireball> GHICKEN_FIREBALL = EntityType.Builder.<GhickenFireballEntity>of(GhickenFireballEntity::new, MobCategory.MISC).build("ghicken_fireball");
     public static EntityType<ChickenArrowEntity> CHICKEN_ARROW = EntityType.Builder.<ChickenArrowEntity>of(ChickenArrowEntity::new, MobCategory.MISC)
             .sized(.5f,.5f).clientTrackingRange(4).updateInterval(20).build("chicken_arrow");

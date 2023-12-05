@@ -27,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -117,6 +118,7 @@ public class ChickenVsHunterFabric implements ModInitializer {
         registerItem("netherite_seeds",Init.NETHERITE_SEEDS);
         registerItem("chicken_compass",Init.CHICKEN_COMPASS);
         registerItem("ender_egg",Init.ENDER_EGG);
+        registerItem("ghicken_spawn_egg",Init.GHICKEN_SPAWN_EGG);
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),Init.creativeModeTab);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),Init.GOLDEN_EGG_E);
@@ -141,5 +143,6 @@ public class ChickenVsHunterFabric implements ModInitializer {
         Init.CHICKEN_LEGGINGS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.LEGGINGS, new Item.Properties());
         Init.CHICKEN_BOOTS = new ChickenArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties());
         Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).sized(2,1).build("ghicken");
+        Init.GHICKEN_SPAWN_EGG = new SpawnEggItem(Init.GHICKEN,0,0,new Item.Properties());
     }
 }

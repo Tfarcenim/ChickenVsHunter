@@ -28,6 +28,7 @@ public class ModLangProvider extends LanguageProvider {
         add(Init.GHICKEN_FIREBALL,"Ghicken Fireball");
         add(Init.CHICKEN_CURSE,"Chicken Curse");
         add(Init.ENDER_EGG,"Ender Egg");
+        add(Init.GHICKEN_SPAWN_EGG,"Golden Egg");
 
     }
 }

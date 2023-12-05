@@ -158,8 +158,12 @@ public class ChickenVsHunter {
         chicken.setHealth(20);
     }
 
-    public static boolean rageMode(Chicken chicken) {
-        return chicken.getUUID().equals(ChickVHunterSavedData.chicken) && chicken.getHealth() < 2;
+    public static boolean rageMode(ServerLevel serverLevel) {
+        Entity entity = serverLevel.getEntity(ChickVHunterSavedData.chicken);
+        if (entity instanceof Chicken chicken) {
+        return chicken.getHealth() < 2;
+        }
+        return false;
     }
 
     public static void worldTick(Level level) {
@@ -227,7 +231,7 @@ public class ChickenVsHunter {
             }
         }
 
-        if (damageSource.getEntity() instanceof  Chicken chicken && rageMode(chicken)) {
+        if (damageSource.getEntity() instanceof  Chicken chicken && rageMode((ServerLevel) livingEntity.level())) {
             livingEntity.setSecondsOnFire(2);
             livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
             livingEntity.addEffect(new MobEffectInstance(Init.CHICKEN_CURSE,-1,0));

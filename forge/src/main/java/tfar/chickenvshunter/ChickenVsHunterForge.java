@@ -65,6 +65,7 @@ public class ChickenVsHunterForge {
         registerItem("netherite_seeds",() -> Init.NETHERITE_SEEDS);
         registerItem("chicken_compass",() -> Init.CHICKEN_COMPASS);
         registerItem("ender_egg",() -> Init.ENDER_EGG);
+        registerItem("ghicken_spawn_egg",() -> Init.GHICKEN_SPAWN_EGG);
 
         event.register(Registries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),() -> Init.creativeModeTab);
         event.register(Registries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),() -> Init.GOLDEN_EGG_E);

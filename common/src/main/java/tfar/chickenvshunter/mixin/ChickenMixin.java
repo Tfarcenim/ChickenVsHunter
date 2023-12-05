@@ -1,6 +1,7 @@
 package tfar.chickenvshunter.mixin;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
@@ -86,7 +87,7 @@ public abstract class ChickenMixin extends PathfinderMob implements ChickenDuck,
     @Override
     public void setHealth(float health) {
         super.setHealth(health);
-        if (ChickenVsHunter.rageMode((Chicken) (Object)this)) {
+        if (!level().isClientSide && ChickenVsHunter.rageMode((ServerLevel) level())) {
             if (getAttribute(Attributes.MOVEMENT_SPEED).getModifier(rage_boost) == null) {
                 this.getAttribute(Attributes.MOVEMENT_SPEED).addTransientModifier(new AttributeModifier(rage_boost, "Rage Boost", .5, AttributeModifier.Operation.ADDITION));
             } else {

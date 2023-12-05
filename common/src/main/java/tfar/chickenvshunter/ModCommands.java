@@ -63,8 +63,12 @@ public class ModCommands {
     }
 
     static final UUID modifier_uuid = UUID.fromString("91559870-2417-4bc1-aafc-7abed56178c3");
+    static final UUID speed_uuid = UUID.fromString("5795d792-1f45-42c9-be56-8daf52efd090");
 
     public static final AttributeModifier SPEEDRUNNER_BUFF = new AttributeModifier(modifier_uuid,"Speedrunner Buff",16, AttributeModifier.Operation.ADDITION);
+
+    public static final AttributeModifier CHICKEN_RAGE_SPEED_BUFF = new AttributeModifier(speed_uuid,"Chicken Rage Speed Buff",.5, AttributeModifier.Operation.ADDITION);
+
 
     public static void startGame(ServerPlayer speedrunner) {
         ChickVHunterSavedData.speedrunner = speedrunner.getUUID();
