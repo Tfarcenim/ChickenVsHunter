@@ -154,7 +154,7 @@ public class ChickenVsHunter {
         Chicken chicken = EntityType.CHICKEN.spawn(serverLevel,player.blockPosition(), MobSpawnType.COMMAND);
         ((ChickenDuck)chicken).setOwnerUUID(player.getUUID());
         chicken.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(ModCommands.SPEEDRUNNER_BUFF);
-        chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(new AttributeModifier("Agressive",.25, AttributeModifier.Operation.ADDITION));
+        chicken.getAttribute(Attributes.MOVEMENT_SPEED).addPermanentModifier(ModCommands.CHICKEN_RAGE_SPEED_BUFF);
         chicken.setHealth(20);
     }
 
