@@ -9,6 +9,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -65,12 +66,13 @@ public class ChickenVsHunterForge {
         registerItem("netherite_seeds",() -> Init.NETHERITE_SEEDS);
         registerItem("chicken_compass",() -> Init.CHICKEN_COMPASS);
         registerItem("ender_egg",() -> Init.ENDER_EGG);
-        registerItem("ghicken_spawn_egg",() -> Init.GHICKEN_SPAWN_EGG);
 
         event.register(Registries.CREATIVE_MODE_TAB,new ResourceLocation(ChickenVsHunter.MOD_ID,"creative_tab"),() -> Init.creativeModeTab);
         event.register(Registries.BLOCK_ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"golden_egg"),() -> Init.GOLDEN_EGG_E);
         event.register(Registries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken"),() -> Init.GHICKEN = EntityType.Builder.of(GhickenEntity::new, MobCategory.CREATURE).build("ghicken"));
         event.register(Registries.ENTITY_TYPE,new ResourceLocation(ChickenVsHunter.MOD_ID,"ghicken_fireball"),() -> Init.GHICKEN_FIREBALL);
+        registerItem("ghicken_spawn_egg",() -> Init.GHICKEN_SPAWN_EGG = new SpawnEggItem(Init.GHICKEN,0,0,new Item.Properties()));
+
 
         event.register(Registries.MOB_EFFECT,new ResourceLocation(ChickenVsHunter.MOD_ID,"chicken_curse"),() -> Init.CHICKEN_CURSE);
 

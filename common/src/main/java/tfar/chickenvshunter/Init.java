@@ -37,7 +37,7 @@ public class Init {
     public static BlockItem GOLDEN_EGG_I = new BlockItem(GOLDEN_EGG,new Item.Properties());
 
 
-    public static Item CHICKEN_AXE = new ChickenAxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
+    public static Item CHICKEN_AXE = new ChickenAxeItem(Tiers.DIAMOND,5,-3,new Item.Properties());
     public static Item CHICKEN_BOW = new ChickenBowItem(new Item.Properties().durability(384 * 4));
     public static Item CHICKEN_PICKAXE = new ChickenPickaxeItem(Tiers.DIAMOND,0,0,new Item.Properties());
     public static Item IRON_SEEDS = new OpSeedItem(new Item.Properties(),OpSeedItem.IRON);

@@ -1,16 +1,9 @@
 package tfar.chickenvshunter.world;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class ChickVHunterSavedData extends SavedData {
@@ -21,6 +14,10 @@ public class ChickVHunterSavedData extends SavedData {
 
     public static boolean isHunter(Player player) {
         return !player.getUUID().equals(speedrunner);
+    }
+
+    public static boolean isGameActive() {
+        return speedrunner != null;
     }
 
     @Override

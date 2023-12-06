@@ -18,6 +18,7 @@ public class ModLangProvider extends LanguageProvider {
         add(Init.CHICKEN_CHESTPLATE,"Chicken Chestplate");
         add(Init.CHICKEN_LEGGINGS,"Chicken Leggings");
         add(Init.CHICKEN_BOOTS,"Chicken Boots");
+        add(Init.CHICKEN_COMPASS,"Chicken Hunter");
 
         add(Init.IRON_SEEDS,"Iron Seeds");
         add(Init.GOLD_SEEDS,"Gold Seeds");

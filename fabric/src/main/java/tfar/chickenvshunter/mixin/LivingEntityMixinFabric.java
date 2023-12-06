@@ -19,8 +19,6 @@ import tfar.chickenvshunter.ChickenVsHunter;
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixinFabric extends Entity {
 
-    @Shadow public abstract boolean hasEffect(MobEffect $$0);
-
     @Shadow public abstract void readAdditionalSaveData(CompoundTag $$0);
 
     public LivingEntityMixinFabric(EntityType<?> entityType, Level level) {
@@ -34,6 +32,11 @@ abstract class LivingEntityMixinFabric extends Entity {
         if (ChickenVsHunter.onFallDamage(selfCast())) {
             cir.setReturnValue(false);
         }
+    }
+
+    @Inject(method = "die",at = @At("HEAD"))
+    private void onDeathEvent(DamageSource damageSource, CallbackInfo ci) {
+        ChickenVsHunter.onDeath(selfCast(),damageSource);
     }
 
     /*@ModifyVariable(method = "knockback",at = @At(value = "HEAD"),argsOnly = true,ordinal = 0)

@@ -15,8 +15,8 @@ import tfar.chickenvshunter.world.ChickVHunterSavedData;
 import tfar.chickenvshunter.world.deferredevent.ScaleLater;
 
 public class ChickenAxeItem extends AxeItem {
-    public ChickenAxeItem(Tier $$0, float $$1, float $$2, Properties $$3) {
-        super($$0, $$1, $$2, $$3);
+    public ChickenAxeItem(Tier $$0, float damage, float attackSpeed, Properties $$3) {
+        super($$0, damage, attackSpeed, $$3);
     }
 
     @Override

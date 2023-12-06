@@ -13,6 +13,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Chicken;
@@ -31,9 +32,11 @@ import tfar.chickenvshunter.world.deferredevent.LevelDeferredEvent;
 import tfar.chickenvshunter.world.deferredevent.LevelDeferredEventSystem;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import static tfar.chickenvshunter.world.ChickVHunterSavedData.chicken;
+import static tfar.chickenvshunter.world.ChickVHunterSavedData.speedrunner;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -149,6 +152,27 @@ public class ChickenVsHunter {
         }
     }
 
+    public static final UUID chicken_death_boost = UUID.fromString("1efd5a8d-82a1-46a7-9423-341f2a159605");
+
+    public static AttributeModifier createFromChickenDeaths(double deaths) {
+        return new AttributeModifier(chicken_death_boost,"Chicken Death Boost",deaths *2, AttributeModifier.Operation.ADDITION);
+    }
+    public static void onDeath(LivingEntity living,DamageSource source) {
+        if (living instanceof Chicken && ChickVHunterSavedData.speedrunner != null) {
+            ServerPlayer entity = living.getServer().getPlayerList().getPlayer(ChickVHunterSavedData.speedrunner);
+            if (entity != null) {
+                AttributeInstance attributeInstance = entity.getAttribute(Attributes.MAX_HEALTH);
+                AttributeModifier existing = attributeInstance.getModifier(chicken_death_boost);
+                if ( existing == null) {
+                    attributeInstance.addPermanentModifier(createFromChickenDeaths(1));
+                } else {
+                    attributeInstance.removePermanentModifier(chicken_death_boost);
+                    attributeInstance.addPermanentModifier(createFromChickenDeaths(existing.getAmount()/2 +1));
+                }
+            }
+        }
+    }
+
     public static void summonChicken(ServerPlayer player) {
         ServerLevel serverLevel = player.serverLevel();
         Chicken chicken = EntityType.CHICKEN.spawn(serverLevel,player.blockPosition(), MobSpawnType.COMMAND);
@@ -231,7 +255,7 @@ public class ChickenVsHunter {
             }
         }
 
-        if (damageSource.getEntity() instanceof  Chicken chicken && rageMode((ServerLevel) livingEntity.level())) {
+        if (damageSource.getEntity() instanceof Chicken && rageMode((ServerLevel) livingEntity.level()) && speedrunner != null && !livingEntity.getUUID().equals(speedrunner)) {
             livingEntity.setSecondsOnFire(2);
             livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION,200,0));
             livingEntity.addEffect(new MobEffectInstance(Init.CHICKEN_CURSE,-1,0));
