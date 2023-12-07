@@ -158,7 +158,7 @@ public class ChickenVsHunter {
         return new AttributeModifier(chicken_death_boost,"Chicken Death Boost",deaths *2, AttributeModifier.Operation.ADDITION);
     }
     public static void onDeath(LivingEntity living,DamageSource source) {
-        if (living instanceof Chicken && ChickVHunterSavedData.speedrunner != null) {
+        if (living instanceof Chicken && ChickVHunterSavedData.speedrunner != null && Math.random() < .25) {
             ServerPlayer entity = living.getServer().getPlayerList().getPlayer(ChickVHunterSavedData.speedrunner);
             if (entity != null) {
                 AttributeInstance attributeInstance = entity.getAttribute(Attributes.MAX_HEALTH);
@@ -169,6 +169,7 @@ public class ChickenVsHunter {
                     attributeInstance.removePermanentModifier(chicken_death_boost);
                     attributeInstance.addPermanentModifier(createFromChickenDeaths(existing.getAmount()/2 +1));
                 }
+                entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION,40,1,false,false));
             }
         }
     }
