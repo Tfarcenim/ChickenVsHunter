@@ -169,7 +169,7 @@ public class ChickenVsHunter {
                     attributeInstance.removePermanentModifier(chicken_death_boost);
                     attributeInstance.addPermanentModifier(createFromChickenDeaths(existing.getAmount()/2 +1));
                 }
-                entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION,40,1,false,false));
+                entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION,40,2,false,false));
             }
         }
     }

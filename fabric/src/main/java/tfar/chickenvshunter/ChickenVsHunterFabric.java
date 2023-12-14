@@ -3,6 +3,8 @@ package tfar.chickenvshunter;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -16,6 +18,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -31,12 +34,17 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import tfar.chickenvshunter.entity.GhickenEntity;
 import tfar.chickenvshunter.entity.GhickenFireballEntity;
 import tfar.chickenvshunter.network.PacketHandler;
+import tfar.chickenvshunter.world.ChickVHunterSavedData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChickenVsHunterFabric implements ModInitializer {
 
@@ -58,10 +66,29 @@ public class ChickenVsHunterFabric implements ModInitializer {
         ServerTickEvents.START_WORLD_TICK.register(this::tickLevel);
         UseBlockCallback.EVENT.register(this::useBlock);
 
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register(this::playerTeleport);
+
         FabricDefaultAttributeRegistry.register(Init.GHICKEN,GhickenEntity.createAttributes());
 
 
         PacketHandler.registerMessages();
+    }
+
+    private void playerTeleport(ServerPlayer player, ServerLevel originalLevel, ServerLevel newLevel) {
+        if (ChickVHunterSavedData.isSpeedrunner(player)) {
+            Iterable<Entity> mobs = originalLevel.getAllEntities();
+            List<Chicken> toMove = new ArrayList<>();
+            for (Entity entity : mobs) {
+                if (entity instanceof Chicken chicken) {
+                    toMove.add(chicken);
+                }
+            }
+            toMove.forEach(chicken -> {
+                chicken.setPortalCooldown();
+                FabricDimensions.teleport(chicken, newLevel, new PortalInfo(player.getPosition(0), chicken.getDeltaMovement(),
+                        chicken.getXRot(), chicken.getYRot()));
+            });
+        }
     }
 
 

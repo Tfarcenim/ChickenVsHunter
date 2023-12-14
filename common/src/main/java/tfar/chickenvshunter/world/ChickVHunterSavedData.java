@@ -13,7 +13,11 @@ public class ChickVHunterSavedData extends SavedData {
     public static int REINFORCEMENT_DELAY = 20 * 40;
 
     public static boolean isHunter(Player player) {
-        return !player.getUUID().equals(speedrunner);
+        return !isSpeedrunner(player);
+    }
+
+    public static boolean isSpeedrunner(Player player) {
+        return player.getUUID().equals(speedrunner);
     }
 
     public static boolean isGameActive() {

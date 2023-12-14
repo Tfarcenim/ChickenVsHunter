@@ -1,6 +1,5 @@
 package tfar.chickenvshunter;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -10,20 +9,25 @@ import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import tfar.chickenvshunter.platform.Services;
-import tfar.chickenvshunter.world.deferredevent.ScaleLater;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class OpSeedItem extends Item {
 
+    //- swap a couple of the seed drops around
+    //	- netherite seed gives chicken bow, 4 golden ghicken eggs, chicken pants, chicken boots
+    //	- diamond seed gives chicken helmet, and chicken chest piece
+
     public static final Consumer<Player> IRON = player -> player.drop(new ItemStack(Init.CHICKEN_PICKAXE),false);
     public static final Consumer<Player> GOLD = player -> player.drop(new ItemStack(Init.CHICKEN_AXE),false);
-    public static final Consumer<Player> DIAMOND = player -> player.drop(new ItemStack(Init.CHICKEN_BOW),false);
-    public static final Consumer<Player> NETHERITE = player -> {
+    public static final Consumer<Player> DIAMOND = player -> {
         player.drop(new ItemStack(Init.CHICKEN_HELMET),false);
         player.drop(new ItemStack(Init.CHICKEN_CHESTPLATE),false);
+    };
+    public static final Consumer<Player> NETHERITE = player -> {
+        player.drop(new ItemStack(Init.CHICKEN_BOW), false);
+        player.drop(new ItemStack(Init.GHICKEN_SPAWN_EGG,4),false);
+
         player.drop(new ItemStack(Init.CHICKEN_LEGGINGS),false);
         player.drop(new ItemStack(Init.CHICKEN_BOOTS),false);
 
